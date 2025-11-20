@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal & Toast - Frontend Kit</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../libs/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="p-4">
+
+<!-- 7. MODAL & TOAST - Standalone Component -->
+<style>
+    .demo-box { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
+</style>
+
+<div class="demo-box">
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#demoModal">Open Modal</button>
+    <button class="btn btn-success" onclick="Toast.show('Success!', 'success')">Success Toast</button>
+    <button class="btn btn-danger" onclick="Toast.show('Error!', 'error')">Error Toast</button>
+    <button class="btn btn-warning" onclick="Toast.show('Warning!', 'warning')">Warning Toast</button>
+    <div class="code mt-2">Code: Popup class, Toast.show(), fixed position + z-index</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="demoModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Demo Modal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>This is a Bootstrap modal example.</p>
+                <p>Used in A201, A302 assignments for delete confirmations and forms.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../js/dom.js"></script>
+<script src="../js/validators.js"></script>
+<script src="../js/components.js"></script>
+</body>
+</html>

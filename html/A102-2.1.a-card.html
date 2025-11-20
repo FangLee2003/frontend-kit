@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A201 - Event Cards Calendar</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 0;
+        }
+
+        .events-container {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .event-card {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .event-date {
+            width: 120px;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .event-date.red {
+            background: #e74c3c;
+        }
+
+        .event-date.green {
+            background: #27ae60;
+        }
+
+        .event-date.blue {
+            background: #3498db;
+        }
+
+        .event-day {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .event-date-number {
+            font-size: 36px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .event-content {
+            flex: 1;
+            padding: 20px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .event-category {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .event-category.red {
+            color: #e74c3c;
+        }
+
+        .event-category.green {
+            color: #27ae60;
+        }
+
+        .event-category.blue {
+            color: #3498db;
+        }
+
+        .event-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: white;
+            color: #3498db;
+            border: 2px solid #3498db;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #3498db;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="events-container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="event-card">
+                        <div class="event-date red">
+                            <div class="event-day">THU</div>
+                            <div class="event-date-number">03/20</div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-category red">Empower Hour</div>
+                            <div class="event-title">Social Media Office Hour</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="event-card">
+                        <div class="event-date red">
+                            <div class="event-day">MON</div>
+                            <div class="event-date-number">03/22</div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-category red">Empower Hour</div>
+                            <div class="event-title">Getting Started On Social Media</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="event-card">
+                        <div class="event-date green">
+                            <div class="event-day">TUE</div>
+                            <div class="event-date-number">03/27</div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-category green">CE Classes</div>
+                            <div class="event-title">Conducting Open Houses and Developing a Safety Plan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="event-card">
+                        <div class="event-date blue">
+                            <div class="event-day">WED</div>
+                            <div class="event-date-number">04/01</div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-category blue">Board Meetings</div>
+                            <div class="event-title">Board of Directors April Meeting</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <a href="#" class="cta-button">See Full Events Calendar</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

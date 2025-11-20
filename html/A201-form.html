@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A201 - Advanced Search Form</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css">
+    <style>
+        body {
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .required {
+            color: red;
+        }
+
+        .btn-search {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 8px 25px;
+        }
+
+        .btn-search:hover {
+            background: #c2185b;
+        }
+
+        .btn-cancel {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 8px 25px;
+        }
+
+        .radio-inline {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .radio-inline input {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h4 class="mb-4">Advanced Search Form</h4>
+
+        <form>
+            <!-- Specific Section -->
+            <div class="form-section">
+                <div class="section-title">Specific</div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">First name contains</label>
+                        <input type="text" class="form-control" placeholder="First name">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Last name contains</label>
+                        <input type="text" class="form-control" placeholder="Last name">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Email contains</label>
+                        <input type="email" class="form-control" placeholder="Email">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Correspondence</label>
+                        <select class="form-control">
+                            <option>Doesn't matter</option>
+                            <option>Email</option>
+                            <option>Phone</option>
+                            <option>Mail</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Date joined</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">&nbsp;</label>
+                        <input type="date" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Section -->
+            <div class="form-section">
+                <div class="section-title">Related</div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Team</label>
+                        <select class="form-control">
+                            <option>Select team...</option>
+                            <option>Development</option>
+                            <option>Marketing</option>
+                            <option>Sales</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attributes Section -->
+            <div class="form-section">
+                <div class="section-title">Attributes</div>
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Active</label><br>
+                        <div class="radio-inline">
+                            <input type="radio" name="active" id="active-any" checked>
+                            <label for="active-any">Doesn't matter</label>
+                        </div>
+                        <div class="radio-inline">
+                            <input type="radio" name="active" id="active-yes">
+                            <label for="active-yes">Yes</label>
+                        </div>
+                        <div class="radio-inline">
+                            <input type="radio" name="active" id="active-no">
+                            <label for="active-no">No</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Online status</label><br>
+                        <div class="radio-inline">
+                            <input type="radio" name="online" id="online-any" checked>
+                            <label for="online-any">Doesn't matter</label>
+                        </div>
+                        <div class="radio-inline">
+                            <input type="radio" name="online" id="online-online">
+                            <label for="online-online">Online</label>
+                        </div>
+                        <div class="radio-inline">
+                            <input type="radio" name="online" id="online-away">
+                            <label for="online-away">Away</label>
+                        </div>
+                        <div class="radio-inline">
+                            <input type="radio" name="online" id="online-offline">
+                            <label for="online-offline">Offline</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Permissions Section -->
+            <div class="form-section">
+                <div class="section-title">Permissions</div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Group</label>
+                        <select class="form-control">
+                            <option>Select group...</option>
+                            <option>Admin</option>
+                            <option>User</option>
+                            <option>Guest</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Permission</label>
+                        <select class="form-control">
+                            <option>Select permission...</option>
+                            <option>Read</option>
+                            <option>Write</option>
+                            <option>Delete</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Supervisor Status -->
+            <div class="form-section">
+                <div class="section-title">Supervisor Status</div>
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <div class="radio-inline">
+                            <input type="radio" name="supervisor" id="super-any" checked>
+                            <label for="super-any">Doesn't matter</label>
+                        </div>
+                        <div class="radio-inline">
+                            <input type="radio" name="supervisor" id="super-yes">
+                            <label for="super-yes">Yes</label>
+                        </div>
+                        <div class="radio-inline">
+                            <input type="radio" name="supervisor" id="super-no">
+                            <label for="super-no">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reset Filter -->
+            <div class="form-section">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="#" class="text-primary"><i class="fas fa-sync-alt"></i> Reset filter</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="text-right">
+                <button type="button" class="btn btn-cancel mr-2">Cancel</button>
+                <button type="submit" class="btn btn-search"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

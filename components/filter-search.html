@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter & Search - Frontend Kit</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../libs/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="p-4">
+
+<!-- 4. FILTER & SEARCH - Standalone Component -->
+<style>
+    .demo-box { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
+</style>
+
+<div class="demo-box">
+    <div class="btn-group mb-2">
+        <button class="btn btn-outline-primary active filter-btn" data-filter="all">All</button>
+        <button class="btn btn-outline-primary filter-btn" data-filter="web">Web</button>
+        <button class="btn btn-outline-primary filter-btn" data-filter="mobile">Mobile</button>
+    </div>
+    <input id="searchInput" class="form-control mb-2" placeholder="Search..." />
+    <div id="itemList" class="row g-2"></div>
+    <div class="code mt-2">filter() + includes(), IIFE, delegation</div>
+</div>
+
+<script>
+    const items = [
+        { name: 'React App', category: 'web' },
+        { name: 'Vue Site', category: 'web' },
+        { name: 'iOS App', category: 'mobile' },
+        { name: 'Android App', category: 'mobile' }
+    ];
+    let filter = 'all', keyword = '';
+    const renderItems = () => {
+        const filtered = items.filter(i => (filter === 'all' || i.category === filter) && (!keyword || i.name.toLowerCase().includes(keyword.toLowerCase())));
+        Dom.$('#itemList').innerHTML = filtered.map(i => `<div class="col-md-4"><div class="card"><div class="card-body"><h6>${i.name}</h6><span class="badge bg-secondary">${i.category}</span></div></div></div>`).join('');
+    };
+    Dom.on('.filter-btn', 'click', function() {
+        Dom.$$('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        filter = this.dataset.filter;
+        renderItems();
+    });
+    Dom.$('#searchInput').addEventListener('keyup', function() { keyword = this.value; renderItems(); });
+    renderItems();
+</script>
+
+<script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../js/dom.js"></script>
+<script src="../js/validators.js"></script>
+<script src="../js/components.js"></script>
+</body>
+</html>

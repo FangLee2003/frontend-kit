@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification - Frontend Kit</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../libs/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="p-4">
+
+<!-- 22. NOTIFICATION SYSTEM - Standalone Component -->
+<style>
+    .demo-box { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
+    .notification { position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px; }
+</style>
+
+<div class="demo-box">
+    <button onclick="showNotif('success')" class="btn btn-success btn-sm">Success</button>
+    <button onclick="showNotif('error')" class="btn btn-danger btn-sm">Error</button>
+    <button onclick="showNotif('warning')" class="btn btn-warning btn-sm">Warning</button>
+    <button onclick="showNotif('info')" class="btn btn-info btn-sm">Info</button>
+    <div id="notificationArea" class="notification"></div>
+    <div class="code mt-2">Fixed position, auto-dismiss setTimeout, alert classes</div>
+</div>
+
+<script>
+    const showNotif = (type) => {
+        const types = {success: 'Success!', error: 'Error occurred', warning: 'Warning message', info: 'Info notification'};
+        const div = document.createElement('div');
+        div.className = `alert alert-${type} alert-dismissible fade show`;
+        div.innerHTML = `${types[type]}<button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>`;
+        Dom.$('#notificationArea').appendChild(div);
+        setTimeout(() => div.remove(), 3000);
+    };
+</script>
+
+<script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../js/dom.js"></script>
+<script src="../js/validators.js"></script>
+<script src="../js/components.js"></script>
+</body>
+</html>

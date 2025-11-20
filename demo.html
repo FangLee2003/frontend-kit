@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frontend Demo - Tổng hợp kiến thức</title>
+    <link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="libs/fontawesome/css/all.min.css" rel="stylesheet" />
+    <style>
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .container {
+        background: #fff;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
+      h1 {
+        color: #667eea;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+      }
+      h3 {
+        color: #555;
+        margin-top: 30px;
+        scroll-margin-top: 20px;
+      }
+      .nav-menu {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: #fff;
+        border-bottom: 2px solid #667eea;
+        margin: -30px -30px 20px -30px;
+        padding: 15px 30px;
+      }
+      .loading {
+        text-align: center;
+        padding: 50px;
+        color: #667eea;
+      }
+      .demo-box {
+        border: 2px solid #ddd;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 0 !important;
+      }
+      .code {
+        background: #f8f9fa;
+        padding: 10px;
+        border-left: 4px solid #667eea;
+        font-family: monospace;
+        margin: 10px 0;
+        font-size: 13px;
+      }
+      #componentsContainer h3 {
+        margin-top: 20px;
+      }
+      #componentsContainer h3:first-child {
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- NAVIGATION MENU -->
+      <div class="nav-menu">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="mb-0"><i class="fas fa-code"></i> Frontend Demo</h5>
+          <button
+            class="btn btn-sm btn-outline-primary"
+            data-bs-toggle="collapse"
+            data-bs-target="#navCollapse"
+          >
+            <i class="fas fa-bars"></i> Menu
+          </button>
+        </div>
+        <div id="navCollapse" class="collapse mt-2">
+          <div id="navButtons" class="row g-2"></div>
+        </div>
+      </div>
+
+      <h1><i class="fas fa-code"></i> Frontend Demo - Tổng hợp kiến thức</h1>
+      <p class="text-muted">
+        Tất cả patterns, components, và utilities từ assignments A101-A302
+      </p>
+
+      <!-- SUMMARY -->
+      <div class="alert alert-info">
+        <h5><i class="fas fa-info-circle"></i> Summary</h5>
+        <p class="mb-2">
+          <strong>24 Components:</strong> Hero, Form, Todo, Filter, Advanced
+          Filter, Tabs, Modal, Toast, Grid, Storage, Progress, Pagination,
+          Rating, Search, Upload, Accordion, Navbar, Sidebar, Reviews,
+          Testimonials, Blog, Pricing, Notification, Dialog, Spinner
+        </p>
+        <p class="mb-2">
+          <strong>Utilities:</strong> Dom.js ($, $$, on, create,
+          show/hide/toggle, addClass/removeClass/toggleClass, formData, render)
+          | Validators.js (isEmail, isPhone, isCreditCard, isURL,
+          isAlphanumeric, isNumber, isStrongPassword) | Components.js (Popup,
+          Tabs, Accordion, Carousel, Dropdown, Toast, Filter)
+        </p>
+        <p class="mb-0">
+          <strong>Patterns:</strong> IIFE, Event Delegation, Debounce, Array
+          filter/map/reduce, Template Literals, Data Attributes, Form
+          Validation, localStorage, fetch API
+        </p>
+      </div>
+
+      <!-- COMPONENTS LOADED DYNAMICALLY -->
+      <div id="componentsContainer"></div>
+
+      <!-- SCROLL TO TOP BUTTON -->
+      <button
+        id="scrollTopBtn"
+        class="btn btn-primary"
+        style="
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          display: none;
+          z-index: 999;
+        "
+      >
+        <i class="fas fa-arrow-up"></i>
+      </button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/dom.js"></script>
+
+    <script>
+      // Component metadata - Data-driven approach
+      const components = [
+        {
+          id: 1,
+          file: "hero-carousel.html",
+          title: "Hero Carousel",
+          icon: "image",
+        },
+        {
+          id: 2,
+          file: "form-validation.html",
+          title: "Form Validation",
+          icon: "check-circle",
+        },
+        { id: 3, file: "todo-list.html", title: "Todo List", icon: "list" },
+        {
+          id: 4,
+          file: "filter-search.html",
+          title: "Filter & Search",
+          icon: "filter",
+        },
+        {
+          id: 5,
+          file: "advanced-filter.html",
+          title: "Advanced Filter",
+          icon: "sliders-h",
+        },
+        { id: 6, file: "tabs.html", title: "Tabs", icon: "folder" },
+        {
+          id: 7,
+          file: "modal-toast.html",
+          title: "Modal & Toast",
+          icon: "bell",
+        },
+        {
+          id: 8,
+          file: "responsive-grid.html",
+          title: "Responsive Grid",
+          icon: "th",
+        },
+        {
+          id: 9,
+          file: "storage.html",
+          title: "LocalStorage",
+          icon: "database",
+        },
+        {
+          id: 10,
+          file: "progress-bar.html",
+          title: "Progress Bar",
+          icon: "tasks",
+        },
+        {
+          id: 11,
+          file: "pagination.html",
+          title: "Pagination",
+          icon: "list-ol",
+        },
+        {
+          id: 12,
+          file: "rating-stars.html",
+          title: "Rating Stars",
+          icon: "star",
+        },
+        {
+          id: 13,
+          file: "search-suggestions.html",
+          title: "Search Suggestions",
+          icon: "search",
+        },
+        {
+          id: 14,
+          file: "file-upload.html",
+          title: "File Upload",
+          icon: "upload",
+        },
+        { id: 15, file: "accordion.html", title: "Accordion", icon: "bars" },
+        { id: 16, file: "navbar.html", title: "Navbar", icon: "bars" },
+        { id: 17, file: "sidebar.html", title: "Sidebar", icon: "sidebar" },
+        {
+          id: 18,
+          file: "reviews.html",
+          title: "Reviews (Shopee)",
+          icon: "comments",
+        },
+        {
+          id: 19,
+          file: "testimonials.html",
+          title: "Testimonials",
+          icon: "quote-left",
+        },
+        {
+          id: 20,
+          file: "blog-cards.html",
+          title: "Blog Cards",
+          icon: "newspaper",
+        },
+        {
+          id: 21,
+          file: "pricing-table.html",
+          title: "Pricing Table",
+          icon: "dollar-sign",
+        },
+        {
+          id: 22,
+          file: "notification.html",
+          title: "Notification",
+          icon: "bell",
+        },
+        {
+          id: 23,
+          file: "modal-dialog.html",
+          title: "Modal Dialog",
+          icon: "window-maximize",
+        },
+        {
+          id: 24,
+          file: "loading-spinner.html",
+          title: "Loading Spinner",
+          icon: "spinner",
+        },
+      ];
+
+      // Generate navigation buttons dynamically
+      const renderNavigation = () => {
+        const navHtml = components
+          .map(
+            (c) =>
+              `<div class="col-md-3"><a href="#section-${c.id}" class="btn btn-sm btn-outline-secondary w-100">${c.title}</a></div>`
+          )
+          .join("");
+        document.getElementById("navButtons").innerHTML = navHtml;
+      };
+
+      // Generate component sections dynamically
+      const renderSections = () => {
+        const sectionsHtml = components
+          .map(
+            (c) =>
+              `<h3 id="section-${c.id}"><i class="fas fa-${c.icon}"></i> ${c.id}. ${c.title}</h3>
+                <div id="component-${c.id}" class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>`
+          )
+          .join("");
+        document.getElementById("componentsContainer").innerHTML = sectionsHtml;
+      };
+
+      // Load component from file
+      async function loadComponent(id, file) {
+        try {
+          const response = await fetch(`components/${file}`);
+          if (!response.ok) throw new Error(`Failed to load ${file}`);
+          const html = await response.text();
+          document.getElementById(`component-${id}`).innerHTML = html;
+
+          // Execute inline scripts
+          const container = document.getElementById(`component-${id}`);
+          const scripts = container.querySelectorAll("script");
+          scripts.forEach((script) => {
+            const newScript = document.createElement("script");
+            newScript.textContent = script.textContent;
+            document.body.appendChild(newScript);
+            script.remove();
+          });
+        } catch (error) {
+          document.getElementById(
+            `component-${id}`
+          ).innerHTML = `<div class="alert alert-danger">Error loading component: ${error.message}</div>`;
+        }
+      }
+
+      // Initialize on page load
+      window.addEventListener("DOMContentLoaded", async () => {
+        renderNavigation();
+        renderSections();
+
+        // Load all components
+        for (const comp of components) {
+          await loadComponent(comp.id, comp.file);
+        }
+      });
+
+      // SCROLL TO TOP
+      window.addEventListener(
+        "scroll",
+        () =>
+          (Dom.$("#scrollTopBtn").style.display =
+            window.scrollY > 300 ? "block" : "none")
+      );
+      Dom.$("#scrollTopBtn").addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      );
+    </script>
+  </body>
+</html>

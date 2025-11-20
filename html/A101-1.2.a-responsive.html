@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A101 - Bài 1.2.a Responsive Layout</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+
+        .box {
+            padding: 40px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .header { background: #87ceeb; padding: 40px; }
+        .content { background: #d3d3d3; color: #666; padding: 60px; }
+        .sign-up { background: #87ceeb; padding: 40px; }
+        .feature1 { background: #ffa07a; }
+        .feature2 { background: #ff6b9d; }
+        .feature3 { background: #9b59b6; }
+        .feature4 { background: #3498db; }
+
+        .device-label {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+
+        @media (max-width: 767px) {
+            .device-label::before { content: 'MOBILE'; }
+        }
+
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .device-label::before { content: 'TABLET'; }
+        }
+
+        @media (min-width: 1024px) {
+            .device-label::before { content: 'DESKTOP'; }
+        }
+    </style>
+</head>
+<body>
+    <div class="device-label"></div>
+    <div class="container-fluid p-2">
+        <!-- Header -->
+        <div class="row">
+            <div class="col-12">
+                <div class="box header">HEADER</div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="row">
+            <div class="col-12">
+                <div class="box content">[CONTENT]</div>
+            </div>
+        </div>
+
+        <!-- Sign Up -->
+        <div class="row">
+            <div class="col-12">
+                <div class="box sign-up">[SIGN UP]</div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="box feature1">[FEATURE]</div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="box feature2">[FEATURE]</div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="box feature3">[FEATURE]</div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-12">
+                <div class="box feature4">[FEATURE]</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

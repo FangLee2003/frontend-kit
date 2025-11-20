@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating Stars - Frontend Kit</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../libs/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="p-4">
+
+<!-- 12. RATING STARS - Standalone Component -->
+<style>
+    .demo-box { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
+    .rating-star { cursor: pointer; color: #ddd; transition: 0.2s; }
+    .rating-star:hover, .rating-star.active { color: #ffc107; }
+</style>
+
+<div class="demo-box">
+    <div id="rating" class="fs-3">
+        <i class="far fa-star rating-star" data-value="1"></i>
+        <i class="far fa-star rating-star" data-value="2"></i>
+        <i class="far fa-star rating-star" data-value="3"></i>
+        <i class="far fa-star rating-star" data-value="4"></i>
+        <i class="far fa-star rating-star" data-value="5"></i>
+    </div>
+    <p class="mt-2">Selected: <span id="ratingVal">0</span> stars</p>
+    <div class="code mt-2">Code: Event delegation, CSS classes (far/fas), data attributes</div>
+</div>
+
+<script>
+    let rating = 0;
+    Dom.on('.rating-star', 'click', function() {
+        rating = +this.dataset.value;
+        Dom.$$('.rating-star').forEach((s, i) => s.className = i < rating ? 'fas fa-star rating-star active' : 'far fa-star rating-star');
+        Dom.$('#ratingVal').textContent = rating;
+    });
+</script>
+
+<script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../js/dom.js"></script>
+<script src="../js/validators.js"></script>
+<script src="../js/components.js"></script>
+</body>
+</html>

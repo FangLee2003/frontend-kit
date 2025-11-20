@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagination - Frontend Kit</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../libs/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="p-4">
+
+<!-- 11. PAGINATION - Standalone Component -->
+<style>
+    .demo-box { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
+</style>
+
+<div class="demo-box">
+    <ul id="pageList" class="list-group mb-2"></ul>
+    <nav>
+        <ul id="pagination" class="pagination pagination-sm justify-content-center"></ul>
+    </nav>
+    <div class="code mt-2">Code: Array slice, Math.ceil, dynamic page buttons</div>
+</div>
+
+<script>
+    const pageData = Array.from({length: 50}, (_, i) => `Item ${i + 1}`);
+    let curPg = 1, perPg = 5;
+    const renderPage = () => {
+        const start = (curPg - 1) * perPg;
+        Dom.$('#pageList').innerHTML = pageData.slice(start, start + perPg).map(i => `<li class="list-group-item">${i}</li>`).join('');
+        const total = Math.ceil(pageData.length / perPg);
+        Dom.$('#pagination').innerHTML = Array.from({length: total}, (_, i) => i + 1).map(i => `<li class="page-item ${i === curPg ? 'active' : ''}"><button class="page-link page-btn" data-page="${i}">${i}</button></li>`).join('');
+    };
+    Dom.on('.page-btn', 'click', function() { curPg = +this.dataset.page; renderPage(); });
+    renderPage();
+</script>
+
+<script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../js/dom.js"></script>
+<script src="../js/validators.js"></script>
+<script src="../js/components.js"></script>
+</body>
+</html>

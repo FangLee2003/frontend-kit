@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar - Frontend Kit</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../libs/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="p-4">
+
+<!-- 17. SIDEBAR - Standalone Component -->
+<style>
+    .demo-box { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
+</style>
+
+<div class="demo-box">
+    <button id="toggleSidebar" class="btn btn-primary mb-2">Toggle Sidebar</button>
+    <div class="d-flex" style="min-height:300px">
+        <div id="sidebar" class="bg-dark text-white p-3" style="width:250px;transition:0.3s">
+            <h5>Menu</h5>
+            <div class="accordion accordion-flush" id="sidebarAccordion">
+                <div class="accordion-item bg-dark">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#dash">
+                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        </button>
+                    </h2>
+                    <div id="dash" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+                        <div class="accordion-body bg-dark text-white">
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="text-white text-decoration-none d-block py-1">Overview</a></li>
+                                <li><a href="#" class="text-white text-decoration-none d-block py-1">Analytics</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item bg-dark">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#profile">
+                            <i class="fas fa-user me-2"></i> Profile
+                        </button>
+                    </h2>
+                    <div id="profile" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+                        <div class="accordion-body bg-dark text-white">
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="text-white text-decoration-none d-block py-1">View Profile</a></li>
+                                <li><a href="#" class="text-white text-decoration-none d-block py-1">Edit Profile</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-grow-1 p-3 bg-light">
+            <h6>Main Content Area</h6>
+            <p>Content goes here...</p>
+        </div>
+    </div>
+    <div class="code mt-2">Code: Bootstrap accordion in sidebar, accordion-flush, data-bs-toggle collapse</div>
+</div>
+
+<script>
+    let sideVis = true;
+    Dom.$('#toggleSidebar').addEventListener('click', () => { sideVis = !sideVis; Dom.$('#sidebar').style.marginLeft = sideVis ? '0' : '-250px'; });
+</script>

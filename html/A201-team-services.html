@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A201 - Team & Services Sections</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css">
+    <style>
+        body {
+            background: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            font-weight: 300;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 50px;
+            font-size: 14px;
+        }
+
+        /* Team Cards */
+        .team-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .team-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .team-card-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .team-card-body h5 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .team-card-body .position {
+            color: #888;
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .team-card-body p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-links a {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            border-radius: 50%;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #3b5998;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .social-links a.twitter:hover { background: #1da1f2; }
+        .social-links a.google:hover { background: #db4437; }
+        .social-links a.envelope:hover { background: #ea4335; }
+
+        /* Service Cards */
+        .service-card {
+            background: white;
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            background: #ffc107;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+        }
+
+        .service-card h5 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .service-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn-learn-more {
+            background: #ffc107;
+            color: #333;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-learn-more:hover {
+            background: #ffb300;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .team-card img {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Team Section -->
+    <div class="section" style="background: white;">
+        <div class="container">
+            <div class="section-title">
+                <h2>OUR TEAM</h2>
+            </div>
+            <div class="section-subtitle">
+                Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam dui arcu, bibendum vitae lectus at, ultrices posuere...
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Kevin Perry">
+                        <div class="team-card-body">
+                            <h5>KEVIN PERRY</h5>
+                            <div class="position">Software Developer</div>
+                            <p>Vivamus integer quam augue etiam interdum pulvinar. In hac habitasse platea dictumst...</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="google"><i class="fab fa-google-plus-g"></i></a>
+                                <a href="#" class="envelope"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-card">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop" alt="Kevin Perry">
+                        <div class="team-card-body">
+                            <h5>KEVIN PERRY</h5>
+                            <div class="position">Software Developer</div>
+                            <p>Vivamus integer quam augue etiam interdum pulvinar. In hac habitasse platea dictumst...</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="google"><i class="fab fa-google-plus-g"></i></a>
+                                <a href="#" class="envelope"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-card">
+                        <img src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&h=400&fit=crop" alt="Kevin Perry">
+                        <div class="team-card-body">
+                            <h5>KEVIN PERRY</h5>
+                            <div class="position">Software Developer</div>
+                            <p>Vivamus integer quam augue etiam interdum pulvinar. In hac habitasse platea dictumst...</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="google"><i class="fab fa-google-plus-g"></i></a>
+                                <a href="#" class="envelope"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-card">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop" alt="Kevin Perry">
+                        <div class="team-card-body">
+                            <h5>KEVIN PERRY</h5>
+                            <div class="position">Software Developer</div>
+                            <p>Vivamus integer quam augue etiam interdum pulvinar. In hac habitasse platea dictumst...</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="google"><i class="fab fa-google-plus-g"></i></a>
+                                <a href="#" class="envelope"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <div class="section" style="background: #f9f9f9;">
+        <div class="container">
+            <div class="section-title">
+                <h2>What We Do ?</h2>
+            </div>
+            <div class="section-subtitle">
+                Aenean sed sed ultricies, interdum orci ac, mollis odio ipsum, Mauris at ligula sodales, hendrerit neque sed, consequat sapien.
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h5>City Concert</h5>
+                        <p>Aenean sed sed ultricies, interdum orci ac, mollis odio ipsum, Mauris at ligula sodales, hendrerit neque sed, consequat sapien.</p>
+                        <button class="btn btn-learn-more">Know More</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <h5>Live Music</h5>
+                        <p>Aenean sed sed ultricies, interdum orci ac, mollis odio ipsum, Mauris at ligula sodales, hendrerit neque sed, consequat sapien.</p>
+                        <button class="btn btn-learn-more">Know More</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-guitar"></i>
+                        </div>
+                        <h5>Classic Music</h5>
+                        <p>Aenean sed sed ultricies, interdum orci ac, mollis odio ipsum, Mauris at ligula sodales, hendrerit neque sed, consequat sapien.</p>
+                        <button class="btn btn-learn-more">Know More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

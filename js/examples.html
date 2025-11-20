@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>JS Utils Examples</title>
+    <style>
+        body { font-family: Arial; padding: 20px; max-width: 900px; margin: 0 auto; }
+        h2 { color: #667eea; border-bottom: 2px solid #667eea; margin-top: 40px; padding-bottom: 5px; }
+        h3 { color: #555; margin-top: 20px; }
+        code { background: #eee; padding: 2px 6px; color: #d63384; }
+        .box { border: 2px solid #ddd; padding: 10px; margin: 10px 0; }
+        .active { border-color: #667eea; background: #f0f4ff; }
+        button { padding: 5px 10px; margin: 5px; cursor: pointer; }
+        input, textarea { padding: 5px; margin: 5px; }
+        .error { border-color: #dc3545; }
+        .valid { border-color: #28a745; }
+    </style>
+</head>
+<body>
+    <h1>📦 JS Utils - Examples</h1>
+
+    <h2>DOM.JS</h2>
+
+    <h3>1. Select: Dom.$() và Dom.$$()</h3>
+    <code>Dom.$('.box')</code> - chọn 1 | <code>Dom.$$('.box')</code> - chọn nhiều
+    <div class="box" id="b1">Box 1</div>
+    <div class="box" id="b2">Box 2</div>
+    <button onclick="alert('ID: ' + Dom.$('.box').id)">Chọn box đầu</button>
+    <button onclick="alert('Có ' + Dom.$$('.box').length + ' boxes')">Chọn tất cả</button>
+
+    <h3>2. Show/Hide/Toggle</h3>
+    <code>Dom.show('#x')</code> | <code>Dom.hide('#x')</code> | <code>Dom.toggle('#x')</code>
+    <div id="x" class="box">Box X</div>
+    <button onclick="Dom.show('#x')">Show</button>
+    <button onclick="Dom.hide('#x')">Hide</button>
+    <button onclick="Dom.toggle('#x')">Toggle</button>
+
+    <h3>3. Class: add/remove/toggle</h3>
+    <code>Dom.addClass('#y', 'active')</code>
+    <div id="y" class="box">Box Y</div>
+    <button onclick="Dom.addClass('#y', 'active')">Add</button>
+    <button onclick="Dom.removeClass('#y', 'active')">Remove</button>
+    <button onclick="Dom.toggleClass('#y', 'active')">Toggle</button>
+
+    <h3>4. Create: Dom.create()</h3>
+    <code>Dom.create('div', {class: 'box'}, 'text')</code>
+    <div id="c"></div>
+    <button onclick="Dom.$('#c').appendChild(Dom.create('div', {class: 'box'}, 'New Box'))">Tạo box</button>
+
+    <h3>5. Event Delegation: Dom.on()</h3>
+    <code>Dom.on('.del', 'click', fn)</code> - 1 event cho nhiều buttons
+    <div id="list">
+        <div class="box">Item 1 <button class="del">Xóa</button></div>
+        <div class="box">Item 2 <button class="del">Xóa</button></div>
+    </div>
+    <button onclick="Dom.$('#list').appendChild(Dom.create('div', {class: 'box'}, 'Item mới <button class=del>Xóa</button>'))">Thêm item</button>
+
+    <h3>6. Form: Dom.formData()</h3>
+    <code>Dom.formData(form)</code> - trả về object
+    <form id="f">
+        <input name="name" value="John" placeholder="Name">
+        <input name="age" value="25" placeholder="Age">
+        <button type="button" onclick="alert(JSON.stringify(Dom.formData(Dom.$('#f'))))">Get Data</button>
+    </form>
+
+    <h3>7. Render: Dom.render()</h3>
+    <code>Dom.render(arr, i => `html`)</code>
+    <div id="r"></div>
+    <button onclick="Dom.$('#r').innerHTML = Dom.render([{n:'A'},{n:'B'}], i => `<div class=box>${i.n}</div>`)">Render</button>
+
+    <h2>VALIDATORS.JS</h2>
+
+    <h3>8. Email: Validators.isEmail()</h3>
+    <input id="email" placeholder="email@example.com">
+    <button onclick="validateInput('email', Validators.isEmail(Dom.$('#email').value))">Check Email</button>
+
+    <h3>9. Phone: Validators.isPhone()</h3>
+    <input id="phone" placeholder="0912345678">
+    <button onclick="validateInput('phone', Validators.isPhone(Dom.$('#phone').value))">Check Phone</button>
+
+    <h3>10. Credit Card: Validators.isCreditCard()</h3>
+    <input id="cc" placeholder="1234567890123456" maxlength="16">
+    <button onclick="validateInput('cc', Validators.isCreditCard(Dom.$('#cc').value))">Check Card</button>
+
+    <h3>11. URL: Validators.isURL()</h3>
+    <input id="url" placeholder="https://example.com">
+    <button onclick="validateInput('url', Validators.isURL(Dom.$('#url').value))">Check URL</button>
+
+    <h3>12. Format: Formatter.currency()</h3>
+    <input id="price" value="1500000" placeholder="Number">
+    <button onclick="alert(Formatter.currency(Dom.$('#price').value))">Format VND</button>
+
+    <h3>13. Storage: Storage.set/get()</h3>
+    <input id="key" placeholder="key" value="username">
+    <input id="val" placeholder="value" value="John">
+    <button onclick="Storage.set(Dom.$('#key').value, Dom.$('#val').value); alert('Saved!')">Save</button>
+    <button onclick="alert('Value: ' + Storage.get(Dom.$('#key').value))">Load</button>
+
+    <h2>COMPONENTS.JS</h2>
+
+    <h3>14. Popup: new Popup()</h3>
+    <button onclick="popup.show()">Open Popup</button>
+    <div id="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;">
+        <div style="background:white; margin:100px auto; padding:20px; width:300px; border-radius:8px;">
+            <h3>Popup Title</h3>
+            <p>Popup content here</p>
+            <button data-close>Close</button>
+        </div>
+    </div>
+
+    <h3>15. Tabs: new Tabs()</h3>
+    <div id="tabs">
+        <button class="tab-btn active" data-tab="tab1">Tab 1</button>
+        <button class="tab-btn" data-tab="tab2">Tab 2</button>
+        <div class="tab-content active" data-content="tab1">Content 1</div>
+        <div class="tab-content" data-content="tab2" style="display:none;">Content 2</div>
+    </div>
+
+    <h3>16. Toast: Toast.show()</h3>
+    <button onclick="Toast.show('Success!', 'success')">Success</button>
+    <button onclick="Toast.show('Error!', 'error')">Error</button>
+    <button onclick="Toast.show('Warning!', 'warning')">Warning</button>
+
+    <script src="dom.js"></script>
+    <script src="validators.js"></script>
+    <script src="components.js"></script>
+    <script>
+        // Event delegation
+        Dom.on('.del', 'click', function(e, t) {
+            if(confirm('Xóa?')) t.closest('.box').remove();
+        });
+
+        // Validation helper
+        function validateInput(id, isValid) {
+            const el = Dom.$('#' + id);
+            el.className = isValid ? 'valid' : 'error';
+            alert(isValid ? 'Valid ✓' : 'Invalid ✗');
+        }
+
+        // Components
+        const popup = new Popup('#popup');
+        popup.el.classList.add('show'); // Override để dùng inline style
+        popup.el.style.display = 'none';
+        popup.show = function() { this.el.style.display = 'block'; };
+        popup.close = function() { this.el.style.display = 'none'; };
+
+        new Tabs('#tabs');
+
+        // Tab styling
+        document.addEventListener('DOMContentLoaded', () => {
+            Dom.on('.tab-btn', 'click', function() {
+                Dom.$$('.tab-content').forEach(c => c.style.display = 'none');
+                const target = this.dataset.tab;
+                Dom.$(`[data-content="${target}"]`).style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

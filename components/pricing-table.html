@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Table - Frontend Kit</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../libs/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="p-4">
+
+<!-- 21. PRICING TABLE - Standalone Component -->
+<style>
+    .demo-box { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
+</style>
+
+<div class="demo-box">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Basic</h5>
+                    <h2 class="my-3">$9<small class="text-muted">/mo</small></h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success"></i> 10 GB Storage</li>
+                        <li class="mb-2"><i class="fas fa-check text-success"></i> Email Support</li>
+                        <li class="mb-2"><i class="fas fa-times text-danger"></i> Priority Support</li>
+                        <li class="mb-2"><i class="fas fa-times text-danger"></i> Custom Domain</li>
+                    </ul>
+                    <button class="btn btn-outline-primary">Choose Plan</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center h-100 border-primary">
+                <div class="card-header bg-primary text-white">Most Popular</div>
+                <div class="card-body">
+                    <h5 class="card-title">Pro</h5>
+                    <h2 class="my-3">$29<small class="text-muted">/mo</small></h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success"></i> 100 GB Storage</li>
+                        <li class="mb-2"><i class="fas fa-check text-success"></i> Priority Support</li>
+                        <li class="mb-2"><i class="fas fa-check text-success"></i> Custom Domain</li>
+                        <li class="mb-2"><i class="fas fa-times text-danger"></i> Advanced Analytics</li>
+                    </ul>
+                    <button class="btn btn-primary">Choose Plan</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Enterprise</h5>
+                    <h2 class="my-3">$99<small class="text-muted">/mo</small></h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success"></i> Unlimited Storage</li>
+                        <li class="mb-2"><i class="fas fa-check text-success"></i> 24/7 Support</li>
+                        <li class="mb-2"><i class="fas fa-check text-success"></i> Custom Domain</li>
+                        <li class="mb-2"><i class="fas fa-check text-success"></i> Advanced Analytics</li>
+                    </ul>
+                    <button class="btn btn-outline-primary">Choose Plan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="code mt-2">Card header, border-primary, fa-check/times</div>
+</div>
+
+<script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../js/dom.js"></script>
+<script src="../js/validators.js"></script>
+<script src="../js/components.js"></script>
+</body>
+</html>

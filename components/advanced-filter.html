@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Filter - Frontend Kit</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../libs/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="p-4">
+
+<!-- 5. ADVANCED FILTER - Standalone Component -->
+<style>
+    .demo-box { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
+    .form-switch .form-check-input { width: 3em; }
+</style>
+
+<div class="demo-box">
+    <div class="row g-2 mb-3">
+        <div class="col-md-3">
+            <input id="advSearch" class="form-control form-control-sm" placeholder="Search name..." />
+        </div>
+        <div class="col-md-3">
+            <input type="range" id="priceRange" class="form-range" min="0" max="1000" value="1000" />
+            <small>Price: $<span id="priceVal">1000</span></small>
+        </div>
+        <div class="col-md-3">
+            <select id="sortBy" class="form-select form-select-sm">
+                <option value="">Sort by...</option>
+                <option value="name">Name</option>
+                <option value="price">Price</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="number" id="minRating" class="form-control form-control-sm" placeholder="Min rating (1-5)" min="1" max="5" />
+        </div>
+        <div class="col-md-6">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input cat-check" type="checkbox" value="electronics" checked />
+                <label class="form-check-label">Electronics</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input cat-check" type="checkbox" value="clothing" checked />
+                <label class="form-check-label">Clothing</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input cat-check" type="checkbox" value="books" checked />
+                <label class="form-check-label">Books</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-check form-switch">
+                <input class="form-check-input me-2" type="checkbox" id="inStock" checked />
+                <label class="form-check-label">In Stock</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-check form-switch">
+                <input class="form-check-input me-2" type="checkbox" id="onSale" />
+                <label class="form-check-label">On Sale</label>
+            </div>
+        </div>
+    </div>
+    <div id="advFilterList" class="row g-2"></div>
+    <div class="code mt-2">Checkbox, range, select, number input, switches, sort, multi-condition</div>
+</div>
+
+<script>
+    const advData = [
+        {name: 'Laptop Pro', price: 800, category: 'electronics', stock: true, sale: true, rating: 5},
+        {name: 'Phone X', price: 500, category: 'electronics', stock: true, sale: false, rating: 4},
+        {name: 'Shirt Blue', price: 30, category: 'clothing', stock: false, sale: false, rating: 3},
+        {name: 'Jeans', price: 50, category: 'clothing', stock: true, sale: true, rating: 4},
+        {name: 'Book A', price: 20, category: 'books', stock: true, sale: false, rating: 5},
+        {name: 'Book B', price: 15, category: 'books', stock: false, sale: true, rating: 3}
+    ];
+    const renderAdvFilter = () => {
+        const search = Dom.$('#advSearch').value.toLowerCase();
+        const maxPrice = +Dom.$('#priceRange').value;
+        const cats = Array.from(Dom.$$('.cat-check:checked')).map(c => c.value);
+        const stock = Dom.$('#inStock').checked;
+        const sale = Dom.$('#onSale').checked;
+        const minRating = +Dom.$('#minRating').value || 0;
+        const sort = Dom.$('#sortBy').value;
+        let filtered = advData.filter(i => (!search || i.name.toLowerCase().includes(search)) && i.price <= maxPrice && cats.includes(i.category) && (!stock || i.stock) && (!sale || i.sale) && i.rating >= minRating);
+        if(sort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
+        if(sort === 'price') filtered.sort((a, b) => a.price - b.price);
+        Dom.$('#advFilterList').innerHTML = filtered.map(i => `<div class="col-md-4"><div class="card"><div class="card-body"><h6>${i.name}${i.sale ? ' <span class="badge bg-danger">SALE</span>' : ''}</h6><p class="mb-0">$${i.price} | ${i.category}<br><small class="badge ${i.stock ? 'bg-success' : 'bg-secondary'}">${i.stock ? 'In Stock' : 'Out'}</small> <small>${'★'.repeat(i.rating)}${'☆'.repeat(5-i.rating)}</small></p></div></div></div>`).join('');
+    };
+    Dom.$('#advSearch').addEventListener('keyup', renderAdvFilter);
+    Dom.$('#priceRange').addEventListener('input', function() { Dom.$('#priceVal').textContent = this.value; renderAdvFilter(); });
+    Dom.$$('.cat-check').forEach(c => c.addEventListener('change', renderAdvFilter));
+    Dom.$('#inStock').addEventListener('change', renderAdvFilter);
+    Dom.$('#onSale').addEventListener('change', renderAdvFilter);
+    Dom.$('#sortBy').addEventListener('change', renderAdvFilter);
+    Dom.$('#minRating').addEventListener('input', renderAdvFilter);
+    renderAdvFilter();
+</script>
+
+<script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../js/dom.js"></script>
+<script src="../js/validators.js"></script>
+<script src="../js/components.js"></script>
+</body>
+</html>

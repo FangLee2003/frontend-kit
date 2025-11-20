@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation - Frontend Kit</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../libs/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="p-4">
+
+<!-- 2. FORM VALIDATION - Standalone Component -->
+<style>
+    .demo-box { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
+</style>
+
+<div class="demo-box">
+    <form id="demoForm" class="row g-2">
+        <div class="col-md-6">
+            <input type="text" name="name" class="form-control" placeholder="Name *" required />
+        </div>
+        <div class="col-md-6">
+            <input type="email" name="email" class="form-control" placeholder="Email *" required />
+        </div>
+        <div class="col-md-6">
+            <input type="tel" name="phone" class="form-control" placeholder="Phone (0912345678)" />
+        </div>
+        <div class="col-md-6">
+            <input type="text" name="card" class="form-control" placeholder="Card (16 digits)" maxlength="16" />
+        </div>
+        <div class="col-12">
+            <textarea name="message" class="form-control" rows="2" placeholder="Message *" required></textarea>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Send</button>
+        </div>
+    </form>
+    <div class="code mt-2">Validators: isEmail, isPhone, isCreditCard, formData</div>
+</div>
+
+<script>
+    Dom.$('#demoForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const d = Dom.formData(e.target);
+        const err = [];
+        if (!d.name) err.push('Name');
+        if (!Validators.isEmail(d.email)) err.push('Email');
+        if (d.phone && !Validators.isPhone(d.phone)) err.push('Phone');
+        if (d.card && !Validators.isCreditCard(d.card)) err.push('Card');
+        if (!d.message) err.push('Message');
+        err.length ? Toast.show(err.join(', ') + ' invalid', 'error') : (Toast.show('Sent!', 'success'), e.target.reset());
+    });
+</script>
+
+<script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../js/dom.js"></script>
+<script src="../js/validators.js"></script>
+<script src="../js/components.js"></script>
+</body>
+</html>

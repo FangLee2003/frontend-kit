@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A101 - Bài 1.2.b Responsive Layout</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+        min-height: 100vh;
+      }
+
+      .box {
+        padding: 40px;
+        text-align: center;
+        font-weight: bold;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 120px;
+      }
+
+      .header {
+        background: #34495e;
+      }
+      .menu {
+        background: #e74c3c;
+      }
+      .hero {
+        background: #87ceeb;
+        min-height: 200px;
+      }
+      .main {
+        background: #34495e;
+      }
+      .banner {
+        background: #f39c12;
+      }
+      .extra {
+        background: #27ae60;
+      }
+      .image {
+        background: #95a5a6;
+      }
+      .white-space {
+        background: white;
+      }
+
+      .device-label {
+        position: fixed;
+        text-align: center;
+        top: 10px;
+        right: 10px;
+        background: #333;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+        z-index: 1000;
+      }
+
+      /* Mobile */
+      @media (max-width: 767px) {
+        .device-label {
+          position: static;
+          border-radius: 0;
+          padding: 20px;
+          background: white;
+          color: #333;
+          font-weight: bold;
+          min-height: 60px;
+        }
+      }
+
+      /* Tablet */
+      @media (min-width: 768px) and (max-width: 1023px) {
+        .device-label {
+          position: static;
+          border-radius: 0;
+          padding: 20px;
+          background: white;
+          color: #333;
+          font-weight: bold;
+          min-height: 60px;
+        }
+      }
+
+      /* Desktop */
+      @media (min-width: 1024px) {
+        .device-label {
+          position: static;
+          border-radius: 0;
+          padding: 20px;
+          background: white;
+          color: #333;
+          font-weight: bold;
+          min-height: 60px;
+        }
+
+        .desktop-row-3 {
+          display: flex;
+          align-items: stretch;
+        }
+        .desktop-row-3 .box,
+        .desktop-row-3 .white-space {
+          min-height: 160px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid p-0">
+      <!-- Mobile: Stack vertically -->
+      <div class="d-md-none">
+        <div class="device-label">MOBILE</div>
+        <div class="box header">HEADER</div>
+        <div class="box menu">MENU</div>
+        <div class="box hero">HERO</div>
+        <div class="box main">MAIN</div>
+        <div class="box banner">BANNER</div>
+        <div class="box extra">EXTRA</div>
+        <div class="box image">IMAGE</div>
+      </div>
+
+      <!-- Tablet Layout -->
+      <div class="d-none d-md-block d-lg-none">
+        <div class="row g-0">
+          <div class="col-12 text-center">
+            <div class="device-label">TABLET</div>
+          </div>
+        </div>
+        <div class="row g-0">
+          <div class="col-12">
+            <div class="box header">HEADER</div>
+          </div>
+        </div>
+        <div class="row g-0">
+          <div class="col-3">
+            <div class="box menu" style="min-height: 560px">MENU</div>
+          </div>
+          <div class="col-9">
+            <div class="box hero">HERO</div>
+            <div class="box main">MAIN</div>
+            <div class="row g-0">
+              <div class="col-8">
+                <div class="box banner">BANNER</div>
+              </div>
+              <div class="col-4">
+                <div class="box image">IMAGE</div>
+              </div>
+            </div>
+            <div class="box extra">EXTRA</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Layout -->
+      <div class="d-none d-lg-block">
+        <div class="row g-0">
+          <div class="col-12">
+            <div class="device-label">DESKTOP</div>
+          </div>
+        </div>
+        <div class="row g-0">
+          <div class="col-4">
+            <div class="box header">HEADER</div>
+          </div>
+          <div class="col-8">
+            <div class="box menu">MENU</div>
+          </div>
+        </div>
+        <div class="row g-0">
+          <div class="col-12">
+            <div class="box hero">HERO</div>
+          </div>
+        </div>
+        <div class="row g-0 desktop-row-3">
+          <div class="col-5">
+            <div class="box main">MAIN</div>
+          </div>
+          <div class="col-3">
+            <div class="white-space"></div>
+          </div>
+          <div class="col-2">
+            <div class="box image">IMAGE</div>
+          </div>
+          <div class="col-2">
+            <div class="box extra">EXTRA</div>
+          </div>
+        </div>
+        <div class="row g-0">
+          <div class="col-12">
+            <div class="box banner">BANNER</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

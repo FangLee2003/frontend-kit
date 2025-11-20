@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A301-5.4 Sweet Store</title>
+    <link rel="stylesheet" href="../libs/fontawesome/css/all.min.css">
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Kaushan+Script");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Kaushan Script", cursive;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      h1 {
+        text-align: center;
+        color: white;
+        font-size: 48px;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Filter Controls */
+      .controls {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+      .buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      .btn {
+        padding: 12px 30px;
+        border: 2px solid #667eea;
+        background: white;
+        color: #667eea;
+        font-family: "Kaushan Script", cursive;
+        font-size: 18px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .btn:hover,
+      .btn.active {
+        background: #667eea;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      /* Search Input */
+      .search-box {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .search-icon {
+        background: #667eea;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+      }
+      #search {
+        flex: 1;
+        padding: 15px 20px;
+        border: 2px solid #ddd;
+        border-radius: 25px;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+      }
+      #search:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      /* Products Grid */
+      .products {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 25px;
+      }
+      .product {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+        animation: fadeIn 0.5s;
+      }
+      .product:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      }
+      .product.hide {
+        display: none;
+      }
+      .product img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      .product-info {
+        padding: 20px;
+      }
+      .product-name {
+        font-size: 22px;
+        color: #333;
+        margin-bottom: 10px;
+      }
+      .product-price {
+        font-size: 24px;
+        color: #667eea;
+        font-weight: bold;
+      }
+
+      /* Empty State */
+      .empty {
+        text-align: center;
+        color: white;
+        font-size: 32px;
+        padding: 60px;
+        grid-column: 1 / -1;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Sweet Store</h1>
+
+      <div class="controls">
+        <div class="buttons">
+          <button class="btn active" data-filter="all">ALL</button>
+          <button class="btn" data-filter="cake">CAKES</button>
+          <button class="btn" data-filter="cupcake">CUPCAKES</button>
+          <button class="btn" data-filter="sweet">SWEETS</button>
+          <button class="btn" data-filter="doughnut">DOUGHNUTS</button>
+        </div>
+        <div class="search-box">
+          <div class="search-icon"><i class="fas fa-search"></i></div>
+          <input type="text" id="search" placeholder="Item..." />
+        </div>
+      </div>
+
+      <div class="products" id="products"></div>
+    </div>
+
+    <script>
+      (function () {
+        // Product Data
+        const items = [
+          {
+            id: 1,
+            name: "Sweet Item",
+            category: "sweet",
+            price: 5,
+            image:
+              "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400",
+          },
+          {
+            id: 2,
+            name: "Cupcake Item",
+            category: "cupcake",
+            price: 5,
+            image:
+              "https://images.unsplash.com/photo-1426869884541-df7117556757?w=400",
+          },
+          {
+            id: 3,
+            name: "Cake Item",
+            category: "cake",
+            price: 5,
+            image:
+              "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400",
+          },
+          {
+            id: 4,
+            name: "Doughnut Item",
+            category: "doughnut",
+            price: 5,
+            image:
+              "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400",
+          },
+          {
+            id: 5,
+            name: "Cupcake Item",
+            category: "cupcake",
+            price: 10,
+            image:
+              "https://images.unsplash.com/photo-1587668178277-295251f900ce?w=400",
+          },
+          {
+            id: 6,
+            name: "Cake Item",
+            category: "cake",
+            price: 8,
+            image:
+              "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400",
+          },
+          {
+            id: 7,
+            name: "Doughnut Item",
+            category: "doughnut",
+            price: 7,
+            image:
+              "https://images.unsplash.com/photo-1514517521153-1be72277b32f?w=400",
+          },
+          {
+            id: 8,
+            name: "Sweet Item",
+            category: "sweet",
+            price: 6,
+            image:
+              "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=400",
+          },
+        ];
+
+        const products = document.getElementById("products");
+        const search = document.getElementById("search");
+        const buttons = document.querySelectorAll(".btn");
+
+        let currentFilter = "all";
+        let currentSearch = "";
+
+        // Render products
+        function render() {
+          let filtered = items;
+
+          // Filter by category
+          if (currentFilter !== "all") {
+            filtered = filtered.filter(
+              (item) => item.category === currentFilter
+            );
+          }
+
+          // Filter by search keyword
+          if (currentSearch) {
+            filtered = filtered.filter((item) =>
+              item.name.toLowerCase().includes(currentSearch.toLowerCase())
+            );
+          }
+
+          // Display results
+          if (filtered.length === 0) {
+            products.innerHTML = '<div class="empty">No items found 😢</div>';
+            return;
+          }
+
+          products.innerHTML = "";
+          filtered.forEach((item) => {
+            const card = document.createElement("div");
+            card.className = "product";
+            card.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="product-info">
+                            <div class="product-name">${item.name}</div>
+                            <div class="product-price">$ ${item.price}</div>
+                        </div>
+                    `;
+            products.appendChild(card);
+          });
+        }
+
+        // Button filter event
+        buttons.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            buttons.forEach((b) => b.classList.remove("active"));
+            this.classList.add("active");
+            currentFilter = this.dataset.filter;
+            render();
+          });
+        });
+
+        // Search input event (keyup)
+        search.addEventListener("keyup", function () {
+          currentSearch = this.value;
+          render();
+        });
+
+        // Initial render
+        render();
+      })();
+    </script>
+  </body>
+</html>

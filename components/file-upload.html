@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload - Frontend Kit</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../libs/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="p-4">
+
+<!-- 14. FILE UPLOAD - Standalone Component -->
+<style>
+    .demo-box { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
+</style>
+
+<div class="demo-box">
+    <input type="file" id="fileInput" class="form-control" accept="image/*" multiple />
+    <div id="filePreview" class="row g-2 mt-2"></div>
+    <div class="code mt-2">Code: FileReader, URL.createObjectURL, multiple attribute</div>
+</div>
+
+<script>
+    Dom.$('#fileInput').addEventListener('change', function(e) {
+        Dom.$('#filePreview').innerHTML = Array.from(e.target.files).map(f => {
+            const url = URL.createObjectURL(f);
+            return `<div class="col-md-3"><div class="card"><img src="${url}" class="card-img-top" style="height:150px;object-fit:cover"><div class="card-body p-2"><small>${f.name.substr(0, 20)}${f.name.length > 20 ? '...' : ''}</small></div></div></div>`;
+        }).join('');
+    });
+</script>
+
+<script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../js/dom.js"></script>
+<script src="../js/validators.js"></script>
+<script src="../js/components.js"></script>
+</body>
+</html>

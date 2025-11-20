@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Spinner - Frontend Kit</title>
+    <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../libs/fontawesome/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="p-4">
+
+<!-- 24. LOADING SPINNER - Standalone Component -->
+<style>
+    .demo-box { border: 2px solid #ddd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
+    .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #667eea; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+</style>
+
+<div class="demo-box">
+    <button onclick="showLoading()" class="btn btn-primary">Show Loading (3s)</button>
+    <div id="spinnerArea" style="display:none;text-align:center;margin:20px 0">
+        <div class="spinner d-inline-block"></div>
+        <p class="mt-2">Loading...</p>
+    </div>
+    <div class="code mt-2">CSS animation rotate, border spinner, keyframes</div>
+</div>
+
+<script>
+    const showLoading = () => { Dom.$('#spinnerArea').style.display = 'block'; setTimeout(() => { Dom.$('#spinnerArea').style.display = 'none'; Toast.show('Loaded!', 'success'); }, 3000); };
+</script>
+
+<script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../js/dom.js"></script>
+<script src="../js/validators.js"></script>
+<script src="../js/components.js"></script>
+</body>
+</html>
