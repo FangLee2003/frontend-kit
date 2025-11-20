@@ -45,17 +45,18 @@
         const d = Dom.formData(e.target);
         const err = [];
         if (!d.name) err.push('Name');
-        if (!Validators.isEmail(d.email)) err.push('Email');
-        if (d.phone && !Validators.isPhone(d.phone)) err.push('Phone');
-        if (d.card && !Validators.isCreditCard(d.card)) err.push('Card');
+        if (!validator.isEmail(d.email||'')) err.push('Email');
+        if (d.phone && !/^(\+84|84|0)(3|5|7|8|9)\d{8}$/.test((d.phone||'').replace(/\s+/g,''))) err.push('Phone');
+        if (d.card && !validator.isCreditCard((d.card||'').replace(/\s+/g,''))) err.push('Card');
         if (!d.message) err.push('Message');
         err.length ? Toast.show(err.join(', ') + ' invalid', 'error') : (Toast.show('Sent!', 'success'), e.target.reset());
     });
 </script>
 
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../libs/validator/validator.min.js"></script>
 <script src="../js/dom.js"></script>
-<script src="../js/validators.js"></script>
+<script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>
 </html>

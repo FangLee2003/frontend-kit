@@ -1,85 +1,93 @@
-// components.js - Interactive components
+// components.js - Interactive components (jQuery version)
 class Popup{
-  constructor(selector){ this.el = document.querySelector(selector); this.init(); }
-  init(){ 
-    if(!this.el) return; 
-    this.el.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>this.close())); 
-    this.el.addEventListener('click',e=>{ if(e.target===this.el) this.close(); }); 
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape' && this.el.classList.contains('show')) this.close(); }); 
+  constructor(selector){ 
+    this.$el = $(selector); 
+    this.init(); 
   }
-  show(){ this.el.classList.add('show'); document.body.style.overflow='hidden'; }
-  close(){ this.el.classList.remove('show'); document.body.style.overflow=''; }
+  init(){ 
+    if(!this.$el.length) return; 
+    this.$el.find('[data-close]').on('click', () => this.close()); 
+    this.$el.on('click', e => { if($(e.target).is(this.$el)) this.close(); }); 
+    $(document).on('keydown', e => { if(e.key === 'Escape' && this.$el.hasClass('show')) this.close(); }); 
+  }
+  show(){ this.$el.addClass('show'); $('body').css('overflow', 'hidden'); }
+  close(){ this.$el.removeClass('show'); $('body').css('overflow', ''); }
 }
 
 class Tabs{ 
   constructor(selector){ 
-    this.root=document.querySelector(selector); 
-    this.root&&this.root.addEventListener('click',e=>{ 
-      const btn=e.target.closest('.tab-btn'); 
-      if(btn){ this.activate(btn); } 
-    }); 
+    this.$root = $(selector); 
+    if(!this.$root.length) return;
+    this.$root.on('click', '.tab-btn', e => this.activate($(e.currentTarget)));
   }
-  activate(btn){ 
-    const target=btn.dataset.tab; 
-    this.root.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); 
-    this.root.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); 
-    btn.classList.add('active'); 
-    const el=this.root.querySelector(`[data-content="${target}"]`); 
-    if(el) el.classList.add('active'); 
+  activate($btn){ 
+    const target = $btn.data('tab'); 
+    this.$root.find('.tab-btn').removeClass('active'); 
+    this.$root.find('.tab-content').removeClass('active'); 
+    $btn.addClass('active'); 
+    this.$root.find(`[data-content="${target}"]`).addClass('active'); 
   }
 }
 
 class Accordion{ 
   constructor(selector){ 
-    this.root=document.querySelector(selector); 
-    this.root&&this.root.addEventListener('click',e=>{ 
-      const h=e.target.closest('.accordion-header'); 
-      if(h) this.toggle(h); 
-    }); 
+    this.$root = $(selector); 
+    if(!this.$root.length) return;
+    this.$root.on('click', '.accordion-header', e => this.toggle($(e.currentTarget)));
   }
-  toggle(header){ 
-    const content=header.nextElementSibling; 
-    const isActive=content.classList.contains('active'); 
-    this.root.querySelectorAll('.accordion-content').forEach(c=>c.classList.remove('active')); 
-    if(!isActive) content.classList.add('active'); 
+  toggle($header){ 
+    const $content = $header.next('.accordion-content'); 
+    const isActive = $content.hasClass('active'); 
+    this.$root.find('.accordion-content').removeClass('active'); 
+    if(!isActive) $content.addClass('active'); 
   }
 }
 
 class Carousel{ 
   constructor(selector){ 
-    this.root=document.querySelector(selector); 
-    if(!this.root) return; 
-    this.slides=Array.from(this.root.querySelectorAll('.slide')); 
-    this.idx=0; 
-    this.root.querySelector('.next')?.addEventListener('click',()=>this.next()); 
-    this.root.querySelector('.prev')?.addEventListener('click',()=>this.prev()); 
+    this.$root = $(selector); 
+    if(!this.$root.length) return; 
+    this.$slides = this.$root.find('.slide'); 
+    this.idx = 0; 
+    this.$root.find('.next').on('click', () => this.next()); 
+    this.$root.find('.prev').on('click', () => this.prev()); 
     this.show(0); 
   }
-  show(i){ this.slides.forEach((s,si)=>s.classList.toggle('active',si===i)); this.idx=i; }
-  next(){ this.show((this.idx+1)%this.slides.length); }
-  prev(){ this.show((this.idx-1+this.slides.length)%this.slides.length); }
+  show(i){ 
+    this.$slides.removeClass('active').eq(i).addClass('active'); 
+    this.idx = i; 
+  }
+  next(){ this.show((this.idx + 1) % this.$slides.length); }
+  prev(){ this.show((this.idx - 1 + this.$slides.length) % this.$slides.length); }
 }
 
 class Dropdown{ 
   constructor(selector){ 
-    this.root=document.querySelector(selector); 
-    if(!this.root) return; 
-    this.toggle=this.root.querySelector('.dropdown-toggle'); 
-    this.menu=this.root.querySelector('.dropdown-menu'); 
-    this.toggle.addEventListener('click',e=>{ e.stopPropagation(); this.menu.classList.toggle('show'); }); 
-    document.addEventListener('click',()=>this.menu.classList.remove('show')); 
+    this.$root = $(selector); 
+    if(!this.$root.length) return; 
+    this.$toggle = this.$root.find('.dropdown-toggle'); 
+    this.$menu = this.$root.find('.dropdown-menu'); 
+    this.$toggle.on('click', e => { 
+      e.stopPropagation(); 
+      this.$menu.toggleClass('show'); 
+    }); 
+    $(document).on('click', () => this.$menu.removeClass('show')); 
   }
 }
 
-// Toast notification - Utils.toast('Success!', 'success')
+// Toast notification - Toast.show('Success!', 'success')
 class Toast{
   static show(msg, type='info', duration=3000){
     const colors = {success:'#198754', error:'#dc3545', warning:'#ffc107', info:'#0dcaf0'};
-    const el = document.createElement('div');
-    el.textContent = msg;
-    el.style.cssText = `position:fixed;top:20px;right:20px;padding:12px 20px;background:${colors[type]||'#333'};color:#fff;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:9999;animation:slideIn 0.3s;`;
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), duration);
+    const $el = $('<div>').text(msg).css({
+      position: 'fixed', top: '20px', right: '20px',
+      padding: '12px 20px', background: colors[type] || '#333',
+      color: '#fff', borderRadius: '8px',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+      zIndex: 9999, animation: 'slideIn 0.3s'
+    });
+    $('body').append($el);
+    setTimeout(() => $el.remove(), duration);
   }
 }
 
