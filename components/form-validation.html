@@ -40,22 +40,24 @@
 </div>
 
 <script>
-    Dom.$('#demoForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const d = Dom.formData(e.target);
-        const err = [];
-        if (!d.name) err.push('Name');
-        if (!validator.isEmail(d.email||'')) err.push('Email');
-        if (d.phone && !/^(\+84|84|0)(3|5|7|8|9)\d{8}$/.test((d.phone||'').replace(/\s+/g,''))) err.push('Phone');
-        if (d.card && !validator.isCreditCard((d.card||'').replace(/\s+/g,''))) err.push('Card');
-        if (!d.message) err.push('Message');
-        err.length ? Toast.show(err.join(', ') + ' invalid', 'error') : (Toast.show('Sent!', 'success'), e.target.reset());
-    });
+    setTimeout(() => {
+        $('#demoForm').on('submit', (e) => {
+            e.preventDefault();
+            const d = Object.fromEntries(new FormData(e.target));
+            const err = [];
+            if (!validator.isName(d.name)) err.push('Name (2-50 chars, letters only)');
+            if (!validator.isEmail(d.email||'')) err.push('Email');
+            if (d.phone && !validator.isMobilePhone(d.phone)) err.push('Phone (VN format)');
+            if (d.card && !validator.isCreditCard((d.card||'').replace(/\s+/g,''))) err.push('Card');
+            if (!validator.isMessage(d.message)) err.push('Message (10-500 chars)');
+            err.length ? Toast.show(err.join(', ') + ' invalid', 'error') : (Toast.show('Sent!', 'success'), e.target.reset());
+        });
+    }, 0);
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

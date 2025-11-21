@@ -28,17 +28,17 @@
     let curPg = 1, perPg = 5;
     const renderPage = () => {
         const start = (curPg - 1) * perPg;
-        Dom.$('#pageList').innerHTML = pageData.slice(start, start + perPg).map(i => `<li class="list-group-item">${i}</li>`).join('');
+        $('#pageList').html(pageData.slice(start, start + perPg).map(i => `<li class="list-group-item">${i}</li>`).join(''));
         const total = Math.ceil(pageData.length / perPg);
-        Dom.$('#pagination').innerHTML = Array.from({length: total}, (_, i) => i + 1).map(i => `<li class="page-item ${i === curPg ? 'active' : ''}"><button class="page-link page-btn" data-page="${i}">${i}</button></li>`).join('');
+        $('#pagination').html(Array.from({length: total}, (_, i) => i + 1).map(i => `<li class="page-item ${i === curPg ? 'active' : ''}"><button class="page-link page-btn" data-page="${i}">${i}</button></li>`).join(''));
     };
-    Dom.on('.page-btn', 'click', function() { curPg = +this.dataset.page; renderPage(); });
+    $(document).on('click', '.page-btn', function() { curPg = +$(this).data('page'); renderPage(); });
     renderPage();
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

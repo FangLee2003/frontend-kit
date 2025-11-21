@@ -34,14 +34,14 @@
 </div>
 
 <script>
-    const showDialog = () => { Dom.$('#modalTitle').textContent = 'Information'; Dom.$('#modalBody').textContent = 'This is a custom modal dialog.'; Dom.$('#modalFooter').innerHTML = '<button onclick="closeDialog()" class="btn btn-secondary">Close</button>'; Dom.$('#customModal').style.display = 'block'; };
-    const showConfirm = () => { Dom.$('#modalTitle').textContent = 'Confirm'; Dom.$('#modalBody').textContent = 'Are you sure?'; Dom.$('#modalFooter').innerHTML = '<button onclick="closeDialog()" class="btn btn-secondary">Cancel</button><button onclick="alert(\'Confirmed!\');closeDialog()" class="btn btn-primary">OK</button>'; Dom.$('#customModal').style.display = 'block'; };
-    const closeDialog = () => Dom.$('#customModal').style.display = 'none';
+    const showDialog = () => { $('#modalTitle').text('Information'); $('#modalBody').text('This is a custom modal dialog.'); $('#modalFooter').html('<button onclick="closeDialog()" class="btn btn-secondary">Close</button>'); $('#customModal').show(); };
+    const showConfirm = () => { $('#modalTitle').text('Confirm'); $('#modalBody').text('Are you sure?'); $('#modalFooter').html('<button onclick="closeDialog()" class="btn btn-secondary">Cancel</button><button onclick="alert(\'Confirmed!\');closeDialog()" class="btn btn-primary">OK</button>'); $('#customModal').show(); };
+    const closeDialog = () => $('#customModal').hide();
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

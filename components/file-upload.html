@@ -22,17 +22,17 @@
 </div>
 
 <script>
-    Dom.$('#fileInput').addEventListener('change', function(e) {
-        Dom.$('#filePreview').innerHTML = Array.from(e.target.files).map(f => {
+    $('#fileInput').on('change', function(e) {
+        $('#filePreview').html(Array.from(e.target.files).map(f => {
             const url = URL.createObjectURL(f);
             return `<div class="col-md-3"><div class="card"><img src="${url}" class="card-img-top" style="height:150px;object-fit:cover"><div class="card-body p-2"><small>${f.name.substr(0, 20)}${f.name.length > 20 ? '...' : ''}</small></div></div></div>`;
-        }).join('');
+        }).join(''));
     });
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

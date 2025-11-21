@@ -36,21 +36,21 @@
     let filter = 'all', keyword = '';
     const renderItems = () => {
         const filtered = items.filter(i => (filter === 'all' || i.category === filter) && (!keyword || i.name.toLowerCase().includes(keyword.toLowerCase())));
-        Dom.$('#itemList').innerHTML = filtered.map(i => `<div class="col-md-4"><div class="card"><div class="card-body"><h6>${i.name}</h6><span class="badge bg-secondary">${i.category}</span></div></div></div>`).join('');
+        $('#itemList').html(filtered.map(i => `<div class="col-md-4"><div class="card"><div class="card-body"><h6>${i.name}</h6><span class="badge bg-secondary">${i.category}</span></div></div></div>`).join(''));
     };
-    Dom.on('.filter-btn', 'click', function() {
-        Dom.$$('.filter-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        filter = this.dataset.filter;
+    $(document).on('click', '.filter-btn', function() {
+        $('.filter-btn').removeClass('active');
+        $(this).addClass('active');
+        filter = $(this).data('filter');
         renderItems();
     });
-    Dom.$('#searchInput').addEventListener('keyup', function() { keyword = this.value; renderItems(); });
+    $('#searchInput').on('keyup', function() { keyword = $(this).val(); renderItems(); });
     renderItems();
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

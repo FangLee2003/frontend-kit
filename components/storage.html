@@ -18,17 +18,33 @@
 <div class="demo-box">
     <input id="storageKey" class="form-control d-inline w-auto" placeholder="key" value="username" />
     <input id="storageValue" class="form-control d-inline w-auto" placeholder="value" value="John" />
-    <button onclick="Storage.set(Dom.$('#storageKey').value, Dom.$('#storageValue').value); alert('Saved!')" class="btn btn-sm btn-primary">Save</button>
-    <button onclick="alert(Storage.get(Dom.$('#storageKey').value))" class="btn btn-sm btn-success">Load</button>
+    <button onclick="window.saveStorage()" class="btn btn-sm btn-primary">Save</button>
+    <button onclick="window.loadStorage()" class="btn btn-sm btn-success">Load</button>
     <br /><br />
     <input id="priceInput" class="form-control d-inline w-auto" placeholder="Number" value="1500000" />
-    <button onclick="alert('VND: ' + Formatter.currency(Dom.$('#priceInput').value))" class="btn btn-sm btn-info">Format VND</button>
+    <button onclick="window.formatPrice()" class="btn btn-sm btn-info">Format VND</button>
     <div class="code mt-2">Code: Storage.set/get, Formatter.currency, JSON.stringify/parse</div>
 </div>
 
+<script>
+    setTimeout(() => {
+        window.saveStorage = () => {
+            Storage.set($('#storageKey').val(), $('#storageValue').val());
+            alert('Saved!');
+        };
+        window.loadStorage = () => {
+            const val = Storage.get($('#storageKey').val());
+            alert(val || 'Not found');
+        };
+        window.formatPrice = () => {
+            alert('VND: ' + Formatter.currency($('#priceInput').val()));
+        };
+    }, 0);
+</script>
+
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

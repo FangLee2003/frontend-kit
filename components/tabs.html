@@ -34,16 +34,19 @@
 </div>
 
 <script>
-    new Tabs('#myTabs');
-    Dom.on('.tab-btn', 'click', function() {
-        Dom.$$('.tab-content').forEach(c => c.style.display = 'none');
-        Dom.$(`[data-content="${this.dataset.tab}"]`).style.display = 'block';
-    });
+    setTimeout(() => {
+        $(document).on('click', '.tab-btn', function() {
+            $('.tab-btn').removeClass('active');
+            $(this).addClass('active');
+            $('.tab-content').hide();
+            $(`[data-content="${$(this).data('tab')}"]`).show();
+        });
+    }, 0);
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

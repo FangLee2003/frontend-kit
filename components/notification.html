@@ -26,19 +26,22 @@
 </div>
 
 <script>
-    const showNotif = (type) => {
-        const types = {success: 'Success!', error: 'Error occurred', warning: 'Warning message', info: 'Info notification'};
-        const div = document.createElement('div');
-        div.className = `alert alert-${type} alert-dismissible fade show`;
-        div.innerHTML = `${types[type]}<button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>`;
-        Dom.$('#notificationArea').appendChild(div);
-        setTimeout(() => div.remove(), 3000);
-    };
+    setTimeout(() => {
+        window.showNotif = (type) => {
+            const types = {success: 'Success!', error: 'Error occurred', warning: 'Warning message', info: 'Info notification'};
+            const typeMap = {success: 'success', error: 'danger', warning: 'warning', info: 'info'};
+            const div = document.createElement('div');
+            div.className = `alert alert-${typeMap[type]} alert-dismissible fade show`;
+            div.innerHTML = `${types[type]}<button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>`;
+            $('#notificationArea')[0].appendChild(div);
+            setTimeout(() => div.remove(), 3000);
+        };
+    }, 0);
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

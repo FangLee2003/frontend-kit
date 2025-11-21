@@ -75,9 +75,118 @@ div > p { } /* Direct child */ h2 + p { } /* Adjacent */
 }
 .animated { animation: slideIn 2s ease-in-out; }
 
+/* Fade In */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.fade-in { animation: fadeIn 1s ease-in; }
+
+/* Slide Up */
+@keyframes slideUp {
+    0% { transform: translateY(100px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+.slide-up { animation: slideUp 0.8s ease-out; }
+
+/* Bounce */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-30px); }
+    60% { transform: translateY(-15px); }
+}
+.bounce { animation: bounce 2s infinite; }
+
+/* Pulse */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+.pulse { animation: pulse 1.5s ease-in-out infinite; }
+
+/* Rotate */
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.rotate { animation: rotate 2s linear infinite; }
+
+/* Shake */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+    20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+.shake { animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both; }
+
+/* Flip */
+@keyframes flip {
+    0% { transform: perspective(400px) rotateY(0); }
+    100% { transform: perspective(400px) rotateY(360deg); }
+}
+.flip { animation: flip 1s ease-in-out; }
+
+/* Zoom In */
+@keyframes zoomIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.zoom-in { animation: zoomIn 0.5s ease-out; }
+
+/* Fade In Down */
+@keyframes fadeInDown {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+.fade-in-down { animation: fadeInDown 0.6s ease-out; }
+
+/* Loading Spinner */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+.spinner {
+    border: 4px solid rgba(0,0,0,0.1);
+    border-top-color: #333;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+/* Typing Effect */
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+.typing {
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid;
+    animation: typing 3.5s steps(40) 1s forwards,
+               blink 0.75s step-end infinite;
+}
+
 /* Common hover effects */
 .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 .zoom:hover { transform: scale(1.05); }
+.glow:hover { box-shadow: 0 0 20px rgba(102, 126, 234, 0.6); }
+
+/* Animation properties */
+.custom-animation {
+    animation-name: fadeIn;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out; /* linear, ease, ease-in, ease-out, cubic-bezier() */
+    animation-delay: 0.5s;
+    animation-iteration-count: infinite; /* 1, 2, infinite */
+    animation-direction: alternate; /* normal, reverse, alternate, alternate-reverse */
+    animation-fill-mode: forwards; /* none, forwards, backwards, both */
+    animation-play-state: running; /* running, paused */
+}
 ```
 
 ## Transforms

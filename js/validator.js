@@ -389,5 +389,19 @@ const validator = {
   // isHexColor("#ff5733") → true
   isHexColor(str) {
     return /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/.test(String(str || ''));
+  },
+
+  // Kiểm tra tên hợp lệ (chữ cái, khoảng trắng, 2-50 ký tự)
+  // isName("Nguyễn Văn A") → true
+  isName(str) {
+    const s = String(str || '').trim();
+    return /^[a-zA-ZÀ-ỹ\s]{2,50}$/.test(s) && s.length >= 2;
+  },
+
+  // Kiểm tra message/comment hợp lệ (không rỗng, 10-500 ký tự)
+  // isMessage("Hello world") → true
+  isMessage(str) {
+    const s = String(str || '').trim();
+    return s.length >= 10 && s.length <= 500;
   }
 };

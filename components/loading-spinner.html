@@ -27,12 +27,12 @@
 </div>
 
 <script>
-    const showLoading = () => { Dom.$('#spinnerArea').style.display = 'block'; setTimeout(() => { Dom.$('#spinnerArea').style.display = 'none'; Toast.show('Loaded!', 'success'); }, 3000); };
+    const showLoading = () => { $('#spinnerArea').show(); setTimeout(() => { $('#spinnerArea').hide(); Toast.show('Loaded!', 'success'); }, 3000); };
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

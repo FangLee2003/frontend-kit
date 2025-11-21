@@ -31,16 +31,18 @@
 
 <script>
     let rating = 0;
-    Dom.on('.rating-star', 'click', function() {
-        rating = +this.dataset.value;
-        Dom.$$('.rating-star').forEach((s, i) => s.className = i < rating ? 'fas fa-star rating-star active' : 'far fa-star rating-star');
-        Dom.$('#ratingVal').textContent = rating;
+    $(document).on('click', '.rating-star', function() {
+        rating = +$(this).data('value');
+        $('.rating-star').each(function(i) {
+            $(this).attr('class', i < rating ? 'fas fa-star rating-star active' : 'far fa-star rating-star');
+        });
+        $('#ratingVal').text(rating);
     });
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

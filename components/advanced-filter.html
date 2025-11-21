@@ -76,31 +76,31 @@
         {name: 'Book B', price: 15, category: 'books', stock: false, sale: true, rating: 3}
     ];
     const renderAdvFilter = () => {
-        const search = Dom.$('#advSearch').value.toLowerCase();
-        const maxPrice = +Dom.$('#priceRange').value;
-        const cats = Array.from(Dom.$$('.cat-check:checked')).map(c => c.value);
-        const stock = Dom.$('#inStock').checked;
-        const sale = Dom.$('#onSale').checked;
-        const minRating = +Dom.$('#minRating').value || 0;
-        const sort = Dom.$('#sortBy').value;
+        const search = $('#advSearch').val().toLowerCase();
+        const maxPrice = +$('#priceRange').val();
+        const cats = $('.cat-check:checked').map(function() { return this.value; }).get();
+        const stock = $('#inStock').is(':checked');
+        const sale = $('#onSale').is(':checked');
+        const minRating = +$('#minRating').val() || 0;
+        const sort = $('#sortBy').val();
         let filtered = advData.filter(i => (!search || i.name.toLowerCase().includes(search)) && i.price <= maxPrice && cats.includes(i.category) && (!stock || i.stock) && (!sale || i.sale) && i.rating >= minRating);
         if(sort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
         if(sort === 'price') filtered.sort((a, b) => a.price - b.price);
-        Dom.$('#advFilterList').innerHTML = filtered.map(i => `<div class="col-md-4"><div class="card"><div class="card-body"><h6>${i.name}${i.sale ? ' <span class="badge bg-danger">SALE</span>' : ''}</h6><p class="mb-0">$${i.price} | ${i.category}<br><small class="badge ${i.stock ? 'bg-success' : 'bg-secondary'}">${i.stock ? 'In Stock' : 'Out'}</small> <small>${'★'.repeat(i.rating)}${'☆'.repeat(5-i.rating)}</small></p></div></div></div>`).join('');
+        $('#advFilterList').html(filtered.map(i => `<div class="col-md-4"><div class="card"><div class="card-body"><h6>${i.name}${i.sale ? ' <span class="badge bg-danger">SALE</span>' : ''}</h6><p class="mb-0">$${i.price} | ${i.category}<br><small class="badge ${i.stock ? 'bg-success' : 'bg-secondary'}">${i.stock ? 'In Stock' : 'Out'}</small> <small>${'★'.repeat(i.rating)}${'☆'.repeat(5-i.rating)}</small></p></div></div></div>`).join(''));
     };
-    Dom.$('#advSearch').addEventListener('keyup', renderAdvFilter);
-    Dom.$('#priceRange').addEventListener('input', function() { Dom.$('#priceVal').textContent = this.value; renderAdvFilter(); });
-    Dom.$$('.cat-check').forEach(c => c.addEventListener('change', renderAdvFilter));
-    Dom.$('#inStock').addEventListener('change', renderAdvFilter);
-    Dom.$('#onSale').addEventListener('change', renderAdvFilter);
-    Dom.$('#sortBy').addEventListener('change', renderAdvFilter);
-    Dom.$('#minRating').addEventListener('input', renderAdvFilter);
+    $('#advSearch').on('keyup', renderAdvFilter);
+    $('#priceRange').on('input', function() { $('#priceVal').text($(this).val()); renderAdvFilter(); });
+    $('.cat-check').on('change', renderAdvFilter);
+    $('#inStock').on('change', renderAdvFilter);
+    $('#onSale').on('change', renderAdvFilter);
+    $('#sortBy').on('change', renderAdvFilter);
+    $('#minRating').on('input', renderAdvFilter);
     renderAdvFilter();
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

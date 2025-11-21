@@ -15,32 +15,71 @@
     .code { background: #f8f9fa; padding: 10px; border-left: 4px solid #667eea; font-family: monospace; margin: 10px 0; font-size: 13px; }
 </style>
 
-<div class="demo-box">
+<div class="demo-box" id="todoComponent">
     <div class="input-group mb-2">
-        <input id="todoInput" class="form-control" placeholder="New task..." />
-        <button onclick="addTodo()" class="btn btn-success">Add</button>
+        <input id="todoInput" class="form-control" placeholder="New task..." autocomplete="off" />
+        <button onclick="window.addTodo_3()" class="btn btn-success">Add</button>
     </div>
     <ul id="todoList" class="list-group"></ul>
-    <div class="code mt-2">Array: push/splice, map().join(), event delegation</div>
+    <div class="code mt-2">Array: push/splice/edit, map().join(), event delegation, inline editing</div>
 </div>
 
 <script>
-    let todos = [];
-    const addTodo = () => {
-        const inp = Dom.$('#todoInput');
-        if (!inp.value.trim()) return Toast.show('Enter task', 'error');
-        todos.push(inp.value.trim());
-        inp.value = '';
-        renderTodos();
-    };
-    const renderTodos = () => Dom.$('#todoList').innerHTML = todos.map((t, i) => `<li class="list-group-item d-flex justify-content-between">${t}<button class="btn btn-sm btn-danger todo-del" data-index="${i}">×</button></li>`).join('');
-    Dom.on('.todo-del', 'click', function() { todos.splice(this.dataset.index, 1); renderTodos(); });
-    Dom.$('#todoInput').addEventListener('keypress', (e) => e.key === 'Enter' && addTodo());
+    setTimeout(() => {
+        window.todos_3 = window.todos_3 || [];
+        window.editingIndex_3 = null;
+        
+        window.addTodo_3 = () => {
+            const inp = $('#todoComponent #todoInput');
+            if (!inp.val() || !inp.val().trim()) return Toast.show('Enter task', 'error');
+            window.todos_3.push(inp.val().trim());
+            inp.val('');
+            window.renderTodos_3();
+        };
+        
+        window.editTodo_3 = (index) => {
+            const todo = window.todos_3[index];
+            const newText = prompt('Edit task:', todo);
+            if (newText && newText.trim() && newText !== todo) {
+                window.todos_3[index] = newText.trim();
+                window.renderTodos_3();
+                Toast.show('Updated!', 'success');
+            }
+        };
+        
+        window.renderTodos_3 = () => {
+            $('#todoComponent #todoList').html(window.todos_3.map((t, i) => `
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>${t}</span>
+                    <div>
+                        <button class="btn btn-sm btn-warning todo-edit me-1" data-index="${i}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger todo-del" data-index="${i}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </li>
+            `).join(''));
+        };
+        
+        $(document).on('click', '.todo-edit', function() { 
+            window.editTodo_3($(this).data('index')); 
+        });
+        $(document).on('click', '.todo-del', function() { 
+            window.todos_3.splice($(this).data('index'), 1); 
+            window.renderTodos_3(); 
+            Toast.show('Deleted!', 'info');
+        });
+        $('#todoComponent #todoInput').on('keypress', (e) => { 
+            if(e.key === 'Enter') window.addTodo_3(); 
+        });
+    }, 100);
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

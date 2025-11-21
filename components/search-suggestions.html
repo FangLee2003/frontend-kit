@@ -24,20 +24,33 @@
 </div>
 
 <script>
-    const searchData = ['iPhone 14', 'iPad Pro', 'MacBook Air', 'AirPods', 'Apple Watch', 'iMac'];
-    Dom.$('#searchBox').addEventListener('keyup', Utils.debounce(function() {
-        const kw = this.value.toLowerCase(), sug = Dom.$('#suggestions');
-        if (!kw) return sug.style.display = 'none';
-        const flt = searchData.filter(i => i.toLowerCase().includes(kw));
-        flt.length ? (sug.innerHTML = flt.map(i => `<button class="list-group-item list-group-item-action search-item">${i}</button>`).join(''), sug.style.display = 'block') : (sug.style.display = 'none');
-    }, 300));
-    Dom.on('.search-item', 'click', function() { Dom.$('#searchBox').value = this.textContent; Dom.$('#suggestions').style.display = 'none'; });
-    document.addEventListener('click', (e) => !e.target.closest('#searchBox') && (Dom.$('#suggestions').style.display = 'none'));
+    setTimeout(() => {
+        const searchData = ['iPhone 14', 'iPad Pro', 'MacBook Air', 'AirPods', 'Apple Watch', 'iMac'];
+        $('#searchBox').on('keyup', Utils.debounce(function() {
+            const kw = $(this).val().toLowerCase();
+            const sug = $('#suggestions');
+            if (!kw) return sug.hide();
+            const flt = searchData.filter(i => i.toLowerCase().includes(kw));
+            console.log('Keyword:', kw, 'Found:', flt.length);
+            if (flt.length) {
+                sug.html(flt.map(i => `<button class="list-group-item list-group-item-action search-item">${i}</button>`).join(''));
+                sug.show();
+            } else {
+                sug.hide();
+            }
+        }, 300));
+        $(document).on('click', '.search-item', function() { $('#searchBox').val($(this).text()); $('#suggestions').hide(); });
+        $(document).on('click', (e) => {
+            if (!$(e.target).closest('#searchBox').length && !$(e.target).closest('#suggestions').length) {
+                $('#suggestions').hide();
+            }
+        });
+    }, 0);
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>

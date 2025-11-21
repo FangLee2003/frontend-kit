@@ -32,23 +32,23 @@
     let prog = 0, cnt = 0, cInt;
     const updateProgress = () => {
         prog = Math.min(prog + 20, 100);
-        Dom.$('#progressBar').style.width = prog + '%';
-        Dom.$('#progressVal').textContent = prog + '%';
-        if (prog === 100 && !cInt) cInt = setInterval(() => { cnt += 100; Dom.$('#counter').textContent = new Intl.NumberFormat().format(cnt); if (cnt >= 10000) clearInterval(cInt); }, 50);
+        $('#progressBar').css('width', prog + '%');
+        $('#progressVal').text(prog + '%');
+        if (prog === 100 && !cInt) cInt = setInterval(() => { cnt += 100; $('#counter').text(new Intl.NumberFormat().format(cnt)); if (cnt >= 10000) clearInterval(cInt); }, 50);
     };
     const resetProgress = () => {
         prog = cnt = 0;
         clearInterval(cInt);
         cInt = null;
-        Dom.$('#progressBar').style.width = '0%';
-        Dom.$('#progressVal').textContent = '0%';
-        Dom.$('#counter').textContent = '0';
+        $('#progressBar').css('width', '0%');
+        $('#progressVal').text('0%');
+        $('#counter').text('0');
     };
 </script>
 
+<script src="../libs/jquery/jquery-3.7.1.min.js"></script>
 <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../js/validator.js"></script>
-<script src="../js/dom.js"></script>
 <script src="../js/utils.js"></script>
 <script src="../js/components.js"></script>
 </body>
