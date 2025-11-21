@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product CRUD Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+            min-height: 100vh;
+            padding: 30px 0;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+        .card-header {
+            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+           background: #667eea;
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 20px;
+        }
+        .card-header h4 {
+            margin: 0;
+            font-weight: 600;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        .table {
+            margin: 0;
+        }
+        .table thead {
+            background: #f8f9fa;
+        }
+        .table tbody tr:hover {
+            background: #f1f3f5;
+        }
+        .btn-action {
+            padding: 5px 10px;
+            margin: 0 2px;
+        }
+        .product-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .search-filter {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .stats-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .stats-card h3 {
+            color: #667eea;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .stats-card p {
+            color: #6c757d;
+            margin: 0;
+        }
+        .badge-status {
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+        }
+        .invalid-feedback {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Statistics -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <i class="fas fa-box fa-2x text-primary"></i>
+                    <h3 id="totalProducts">0</h3>
+                    <p>Tổng sản phẩm</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <i class="fas fa-check-circle fa-2x text-success"></i>
+                    <h3 id="activeProducts">0</h3>
+                    <p>Đang kinh doanh</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <i class="fas fa-dollar-sign fa-2x text-warning"></i>
+                    <h3 id="totalValue">0đ</h3>
+                    <p>Tổng giá trị</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <i class="fas fa-layer-group fa-2x text-info"></i>
+                    <h3 id="totalCategories">0</h3>
+                    <p>Danh mục</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="search-filter">
+            <div class="row align-items-end">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <label class="form-label">Tìm kiếm</label>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Tên sản phẩm, SKU...">
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <label class="form-label">Danh mục</label>
+                    <select id="categoryFilter" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Fashion">Fashion</option>
+                        <option value="Food">Food</option>
+                        <option value="Books">Books</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <label class="form-label">Trạng thái</label>
+                    <select id="statusFilter" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="active">Đang bán</option>
+                        <option value="inactive">Ngừng bán</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100" id="filterBtn">
+                        <i class="fas fa-filter"></i> Lọc
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4><i class="fas fa-list"></i> Danh sách sản phẩm</h4>
+                <button class="btn btn-light" id="addProductBtn">
+                    <i class="fas fa-plus"></i> Thêm sản phẩm
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-container">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>SKU</th>
+                                <th>Danh mục</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productTableBody">
+                            <tr>
+                                <td colspan="9" class="text-center py-5">
+                                    <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                                    <p class="text-muted">Chưa có sản phẩm nào</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">
+                        <i class="fas fa-plus-circle"></i> Thêm sản phẩm mới
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm">
+                        <input type="hidden" id="productId">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="productName" class="form-label">Tên sản phẩm <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="productName" placeholder="Nhập tên sản phẩm">
+                                <div class="invalid-feedback" id="nameError"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="productSKU" class="form-label">SKU <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="productSKU" placeholder="VD: PRD-001">
+                                <div class="invalid-feedback" id="skuError"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="productCategory" class="form-label">Danh mục <span class="text-danger">*</span></label>
+                                <select class="form-select" id="productCategory">
+                                    <option value="">Chọn danh mục</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Fashion">Fashion</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Books">Books</option>
+                                </select>
+                                <div class="invalid-feedback" id="categoryError"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="productPrice" class="form-label">Giá (VNĐ) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="productPrice" placeholder="0" min="0">
+                                <div class="invalid-feedback" id="priceError"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="productStock" class="form-label">Số lượng <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="productStock" placeholder="0" min="0">
+                                <div class="invalid-feedback" id="stockError"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="productStatus" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                                <select class="form-select" id="productStatus">
+                                    <option value="active">Đang bán</option>
+                                    <option value="inactive">Ngừng bán</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productImage" class="form-label">URL Hình ảnh</label>
+                            <input type="text" class="form-control" id="productImage" placeholder="https://example.com/image.jpg">
+                        </div>
+                        <div class="mb-3">
+                            <label for="productDescription" class="form-label">Mô tả</label>
+                            <textarea class="form-control" id="productDescription" rows="3" placeholder="Mô tả sản phẩm..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Hủy
+                    </button>
+                    <button type="button" class="btn btn-primary" id="saveProductBtn">
+                        <i class="fas fa-save"></i> Lưu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle"></i> Xác nhận xóa
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa sản phẩm này không?</p>
+                    <p class="text-muted mb-0">Thao tác này không thể hoàn tác!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                        <i class="fas fa-trash"></i> Xóa
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/validator.js"></script>
+    <script src="../js/utils.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            console.log('Document ready');
+            console.log('Storage:', typeof Storage);
+            console.log('Formatter:', typeof Formatter);
+            console.log('validator:', typeof validator);
+            
+            // Global state
+            window.products = [];
+            window.editingId = null;
+            window.deletingId = null;
+
+            // Sample data - Thêm ngay khi load
+            window.products = [
+                {
+                    id: 1,
+                    name: 'iPhone 15 Pro Max',
+                    sku: 'IP-15PM-256',
+                    category: 'Electronics',
+                    price: 32990000,
+                    stock: 25,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1678652197950-91e3b38c8f87?w=200',
+                    description: 'Điện thoại iPhone 15 Pro Max 256GB, Titan xanh'
+                },
+                {
+                    id: 2,
+                    name: 'MacBook Pro M3',
+                    sku: 'MBP-M3-14',
+                    category: 'Electronics',
+                    price: 45990000,
+                    stock: 12,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=200',
+                    description: 'MacBook Pro 14 inch M3 Chip 16GB RAM 512GB SSD'
+                },
+                {
+                    id: 3,
+                    name: 'Samsung Galaxy S24 Ultra',
+                    sku: 'SS-S24U-512',
+                    category: 'Electronics',
+                    price: 28990000,
+                    stock: 18,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=200',
+                    description: 'Samsung Galaxy S24 Ultra 512GB, Titan Gray'
+                },
+                {
+                    id: 4,
+                    name: 'iPad Pro 12.9 M2',
+                    sku: 'IPD-PR-M2',
+                    category: 'Electronics',
+                    price: 29990000,
+                    stock: 8,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1585790050230-5dd28404f869?w=200',
+                    description: 'iPad Pro 12.9 inch M2 Chip 256GB WiFi'
+                },
+                {
+                    id: 5,
+                    name: 'Áo Polo Nam Cao Cấp',
+                    sku: 'FS-POLO-001',
+                    category: 'Fashion',
+                    price: 450000,
+                    stock: 100,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=200',
+                    description: 'Áo Polo nam chất liệu cotton cao cấp, nhiều màu'
+                },
+                {
+                    id: 6,
+                    name: 'Quần Jeans Slim Fit',
+                    sku: 'FS-JEAN-002',
+                    category: 'Fashion',
+                    price: 650000,
+                    stock: 75,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200',
+                    description: 'Quần jeans denim cao cấp, form slim fit'
+                },
+                {
+                    id: 7,
+                    name: 'Giày Sneaker Nike',
+                    sku: 'FS-NIKE-AIR',
+                    category: 'Fashion',
+                    price: 2890000,
+                    stock: 45,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200',
+                    description: 'Giày thể thao Nike Air Force 1, trắng'
+                },
+                {
+                    id: 8,
+                    name: 'Cà Phê Rang Xay Arabica',
+                    sku: 'FOOD-CF-ARB',
+                    category: 'Food',
+                    price: 320000,
+                    stock: 200,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=200',
+                    description: 'Cà phê hạt Arabica nguyên chất 500g'
+                },
+                {
+                    id: 9,
+                    name: 'Mật Ong Rừng Organic',
+                    sku: 'FOOD-HONEY-01',
+                    category: 'Food',
+                    price: 280000,
+                    stock: 150,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1587049352846-4a222e784226?w=200',
+                    description: 'Mật ong rừng nguyên chất 500ml, không pha trộn'
+                },
+                {
+                    id: 10,
+                    name: 'Sách: Clean Code',
+                    sku: 'BOOK-CC-ENG',
+                    category: 'Books',
+                    price: 450000,
+                    stock: 30,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=200',
+                    description: 'Clean Code - A Handbook of Agile Software Craftsmanship'
+                },
+                {
+                    id: 11,
+                    name: 'Sách: Sapiens',
+                    sku: 'BOOK-SAP-VN',
+                    category: 'Books',
+                    price: 185000,
+                    stock: 50,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=200',
+                    description: 'Sapiens: Lược Sử Loài Người - Yuval Noah Harari'
+                },
+                {
+                    id: 12,
+                    name: 'AirPods Pro Gen 2',
+                    sku: 'AIRPOD-PR2',
+                    category: 'Electronics',
+                    price: 5990000,
+                    stock: 35,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=200',
+                    description: 'Tai nghe AirPods Pro thế hệ 2, chống ồn chủ động'
+                },
+                {
+                    id: 13,
+                    name: 'Apple Watch Series 9',
+                    sku: 'AW-S9-45MM',
+                    category: 'Electronics',
+                    price: 10990000,
+                    stock: 20,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=200',
+                    description: 'Apple Watch Series 9 GPS 45mm, dây cao su'
+                },
+                {
+                    id: 14,
+                    name: 'Áo Khoác Dù Nam',
+                    sku: 'FS-JKT-SPT',
+                    category: 'Fashion',
+                    price: 550000,
+                    stock: 60,
+                    status: 'inactive',
+                    image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=200',
+                    description: 'Áo khoác dù chống nước, nhiều màu'
+                },
+                {
+                    id: 15,
+                    name: 'Túi Xách Tote Canvas',
+                    sku: 'FS-BAG-CNV',
+                    category: 'Fashion',
+                    price: 280000,
+                    stock: 90,
+                    status: 'active',
+                    image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=200',
+                    description: 'Túi xách vải canvas thời trang, size lớn'
+                }
+            ];
+
+            // Save to localStorage
+            if (typeof Storage !== 'undefined') {
+                Storage.set('products', window.products);
+                console.log('Saved to localStorage');
+            }
+
+            // Initialize
+            renderProducts();
+            updateStatistics();
+
+            // Search with debounce
+            $('#searchInput').on('input', Utils.debounce(function() {
+                filterProducts();
+            }, 300));
+
+            // Modal instances
+            window.productModal = new bootstrap.Modal('#productModal');
+            window.deleteModal = new bootstrap.Modal('#deleteModal');
+
+            // Event listeners
+            $('#addProductBtn').on('click', showAddModal);
+            $('#filterBtn').on('click', filterProducts);
+            $('#saveProductBtn').on('click', saveProduct);
+            $('#confirmDeleteBtn').on('click', confirmDelete);
+            
+            // Event delegation for dynamically created buttons
+            $(document).on('click', '.btn-edit', function() {
+                const id = parseInt($(this).data('id'));
+                showEditModal(id);
+            });
+            
+            $(document).on('click', '.btn-delete', function() {
+                const id = parseInt($(this).data('id'));
+                showDeleteModal(id);
+            });
+
+            // Show Add Modal
+            function showAddModal() {
+                window.editingId = null;
+                $('#modalTitle').html('<i class="fas fa-plus-circle"></i> Thêm sản phẩm mới');
+                $('#productForm')[0].reset();
+                $('#productId').val('');
+                $('.form-control, .form-select').removeClass('is-invalid');
+                $('.invalid-feedback').text('');
+                window.productModal.show();
+            }
+
+            // Show Edit Modal
+            function showEditModal(id) {
+                window.editingId = id;
+                const product = window.products.find(p => p.id === id);
+                if (!product) return;
+
+                $('#modalTitle').html('<i class="fas fa-edit"></i> Chỉnh sửa sản phẩm');
+                $('#productId').val(product.id);
+                $('#productName').val(product.name);
+                $('#productSKU').val(product.sku);
+                $('#productCategory').val(product.category);
+                $('#productPrice').val(product.price);
+                $('#productStock').val(product.stock);
+                $('#productStatus').val(product.status);
+                $('#productImage').val(product.image || '');
+                $('#productDescription').val(product.description || '');
+                
+                $('.form-control, .form-select').removeClass('is-invalid');
+                $('.invalid-feedback').text('');
+                window.productModal.show();
+            }
+
+            // Save Product (Add or Update)
+            function saveProduct() {
+                // Clear previous errors
+                $('.form-control, .form-select').removeClass('is-invalid');
+                $('.invalid-feedback').text('');
+
+                // Get form data
+                const data = {
+                    name: $('#productName').val().trim(),
+                    sku: $('#productSKU').val().trim().toUpperCase(),
+                    category: $('#productCategory').val(),
+                    price: parseInt($('#productPrice').val()) || 0,
+                    stock: parseInt($('#productStock').val()) || 0,
+                    status: $('#productStatus').val(),
+                    image: $('#productImage').val().trim(),
+                    description: $('#productDescription').val().trim()
+                };
+
+                // Validation
+                let isValid = true;
+
+                if (validator.isEmpty(data.name)) {
+                    $('#productName').addClass('is-invalid');
+                    $('#nameError').text('Vui lòng nhập tên sản phẩm');
+                    isValid = false;
+                } else if (!validator.isLength(data.name, { min: 3, max: 100 })) {
+                    $('#productName').addClass('is-invalid');
+                    $('#nameError').text('Tên sản phẩm từ 3-100 ký tự');
+                    isValid = false;
+                }
+
+                if (validator.isEmpty(data.sku)) {
+                    $('#productSKU').addClass('is-invalid');
+                    $('#skuError').text('Vui lòng nhập SKU');
+                    isValid = false;
+                } else if (!validator.isAlphanumeric(data.sku.replace(/-/g, ''))) {
+                    $('#productSKU').addClass('is-invalid');
+                    $('#skuError').text('SKU chỉ chứa chữ, số và dấu gạch ngang');
+                    isValid = false;
+                } else {
+                    // Check duplicate SKU
+                    const existingSKU = window.products.find(p => 
+                        p.sku === data.sku && p.id !== window.editingId
+                    );
+                    if (existingSKU) {
+                        $('#productSKU').addClass('is-invalid');
+                        $('#skuError').text('SKU đã tồn tại');
+                        isValid = false;
+                    }
+                }
+
+                if (validator.isEmpty(data.category)) {
+                    $('#productCategory').addClass('is-invalid');
+                    $('#categoryError').text('Vui lòng chọn danh mục');
+                    isValid = false;
+                }
+
+                if (data.price <= 0) {
+                    $('#productPrice').addClass('is-invalid');
+                    $('#priceError').text('Giá phải lớn hơn 0');
+                    isValid = false;
+                }
+
+                if (data.stock < 0) {
+                    $('#productStock').addClass('is-invalid');
+                    $('#stockError').text('Số lượng không được âm');
+                    isValid = false;
+                }
+
+                if (data.image && !validator.isURL(data.image)) {
+                    $('#productImage').addClass('is-invalid');
+                    Utils.alert('URL hình ảnh không hợp lệ', 'error');
+                    isValid = false;
+                }
+
+                if (!isValid) return;
+
+                // Save
+                if (window.editingId) {
+                    // Update
+                    const index = window.products.findIndex(p => p.id === window.editingId);
+                    window.products[index] = { ...window.products[index], ...data };
+                    Utils.alert('Cập nhật sản phẩm thành công!', 'success');
+                } else {
+                    // Add new
+                    const newId = window.products.length > 0 
+                        ? Math.max(...window.products.map(p => p.id)) + 1 
+                        : 1;
+                    window.products.push({ id: newId, ...data });
+                    Utils.alert('Thêm sản phẩm thành công!', 'success');
+                }
+
+                Storage.set('products', window.products);
+                renderProducts();
+                updateStatistics();
+                window.productModal.hide();
+            }
+
+            // Show Delete Modal
+            function showDeleteModal(id) {
+                window.deletingId = id;
+                window.deleteModal.show();
+            }
+
+            // Confirm Delete
+            function confirmDelete() {
+                if (window.deletingId === null) return;
+
+                window.products = window.products.filter(p => p.id !== window.deletingId);
+                Storage.set('products', window.products);
+                renderProducts();
+                updateStatistics();
+                window.deleteModal.hide();
+                Utils.alert('Xóa sản phẩm thành công!', 'info');
+                window.deletingId = null;
+            }
+
+            // Filter Products
+            function filterProducts() {
+                const search = $('#searchInput').val().toLowerCase();
+                const category = $('#categoryFilter').val();
+                const status = $('#statusFilter').val();
+
+                let filtered = window.products;
+
+                if (search) {
+                    filtered = filtered.filter(p => 
+                        p.name.toLowerCase().includes(search) || 
+                        p.sku.toLowerCase().includes(search)
+                    );
+                }
+
+                if (category) {
+                    filtered = filtered.filter(p => p.category === category);
+                }
+
+                if (status) {
+                    filtered = filtered.filter(p => p.status === status);
+                }
+
+                renderProducts(filtered);
+            }
+
+            // Render Products Table
+            function renderProducts(productsToRender = window.products) {
+                const tbody = $('#productTableBody');
+                
+                if (productsToRender.length === 0) {
+                    tbody.html(`
+                        <tr>
+                            <td colspan="9" class="text-center py-5">
+                                <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">Không tìm thấy sản phẩm nào</p>
+                            </td>
+                        </tr>
+                    `);
+                    return;
+                }
+
+                const rows = productsToRender.map(p => {
+                    const statusBadge = p.status === 'active' 
+                        ? '<span class="badge bg-success">Đang bán</span>'
+                        : '<span class="badge bg-secondary">Ngừng bán</span>';
+                    
+                    const imageUrl = p.image || 'https://via.placeholder.com/50';
+                    
+                    return `
+                        <tr>
+                            <td>${p.id}</td>
+                            <td><img src="${imageUrl}" alt="${p.name}" class="product-image"></td>
+                            <td><strong>${p.name}</strong></td>
+                            <td><code>${p.sku}</code></td>
+                            <td><span class="badge bg-info">${p.category}</span></td>
+                            <td><strong>${Formatter.currency(p.price)}</strong></td>
+                            <td>${p.stock}</td>
+                            <td>${statusBadge}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning btn-action btn-edit" data-id="${p.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-action btn-delete" data-id="${p.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                tbody.html(rows);
+            }
+
+            // Update Statistics
+            function updateStatistics() {
+                const total = window.products.length;
+                const active = window.products.filter(p => p.status === 'active').length;
+                const totalValue = window.products.reduce((sum, p) => sum + (p.price * p.stock), 0);
+                const categories = [...new Set(window.products.map(p => p.category))].length;
+
+                $('#totalProducts').text(total);
+                $('#activeProducts').text(active);
+                $('#totalValue').text(Formatter.currency(totalValue));
+                $('#totalCategories').text(categories);
+            }
+
+        });
+    </script>
+</body>
+</html>
