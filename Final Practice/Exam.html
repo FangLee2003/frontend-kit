@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schedule Management</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      body {
+        padding: 30px 0;
+      }
+      /* .card {
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      } */
+      .card-header {
+        background: white;
+        color: black;
+        font-size: large;
+        font-weight: 600;
+      }
+      .add-form {
+        /* background: #f8f9fa; */
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+      .table thead {
+        background: #f8f9fa;
+      }
+      .btn-sm {
+        padding: 4px 8px;
+      }
+      .text-danger {
+        color: darkred;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <div class="card-header">Class and Subject Information</div>
+        <div class="card-body">
+          <!-- Add Form -->
+          <div class="add-form">
+            <!-- <h6 class="mb-3">
+              <i class="fas fa-plus-circle"></i> Add New Schedule
+            </h6> -->
+            <div class="row g-2">
+              <div class="col-md-4">
+                Class
+                <select id="classSelect" class="form-select form-select-sm">
+                  <option value="">-- Select class --</option>
+                  <option value="Fresher.NET">Fresher.NET</option>
+                  <option value="Fresher Java">Fresher Java</option>
+                  <option value="Fresher React">Fresher React</option>
+                </select>
+                <i id="errorClassSelect" class="text-danger"></i>
+              </div>
+              <div class="col-md-8">
+                Subject Topic
+                <input
+                  type="text"
+                  id="topicInput"
+                  class="form-control form-control-sm"
+                  placeholder="Enter topic content"
+                />
+                <i id="errorTopicInput" class="text-danger"></i>
+              </div>
+            </div>
+            <div class="row g-2 mt-1">
+              <div class="col-md-4">
+                Subject
+                <select id="subjectSelect" class="form-select form-select-sm">
+                  <option value="">-- Select subject --</option>
+                  <option value="C#">C#</option>
+                  <option value="SQL Server">SQL Server</option>
+                  <option value="JavaScript">JavaScript</option>
+                  <option value="HTML/CSS">HTML/CSS</option>
+                </select>
+                <i id="errorSubjectSelect" class="text-danger"></i>
+              </div>
+              <div class="col-md-4">
+                Lecturer
+                <select id="lecturerSelect" class="form-select form-select-sm">
+                  <option value="">-- Select lecturer --</option>
+                  <option value="Mr. John">Mr. John</option>
+                  <option value="Ms. Anna">Ms. Anna</option>
+                  <option value="Mr. David">Mr. David</option>
+                </select>
+                <i id="errorLecturerSelect" class="text-danger"></i>
+              </div>
+              <div class="col-md-4">
+                Format
+                <select id="formatSelect" class="form-select form-select-sm">
+                  <option value="">-- Select format --</option>
+                  <option value="Online">Online</option>
+                  <option value="Offline">Offline</option>
+                </select>
+                <i id="errorFormatSelect" class="text-danger"></i>
+              </div>
+            </div>
+            <div class="row g-2 mt-1">
+              <div class="col-md-4">
+                Training/Mentoring Date
+                <input
+                  type="date"
+                  id="dateInput"
+                  class="form-control form-control-sm"
+                />
+                <i id="errorDateInput" class="text-danger"></i>
+              </div>
+              <div class="col-md-4">
+                Start Time
+                <input
+                  type="time"
+                  id="startTime"
+                  class="form-control form-control-sm"
+                />
+                <i id="errorStartTime" class="text-danger"></i>
+              </div>
+              <div class="col-md-4">
+                End Time
+                <input
+                  type="time"
+                  id="endTime"
+                  class="form-control form-control-sm"
+                  disabled
+                />
+                <i id="errorEndTime" class="text-danger"></i>
+              </div>
+            </div>
+            <div class="mt-2">
+              <button id="addBtn" class="btn btn-success btn-sm">
+                <i class="fas fa-plus"></i> Add Schedule
+              </button>
+              <!-- <button id="clearBtn" class="btn btn-secondary btn-sm">
+                <i class="fas fa-eraser"></i> Clear
+              </button> -->
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="table-responsive">
+            <div class="row g-2 mb-2">
+              <div class="col-md-2">Select Lecturer</div>
+              <div class="col-md-4">
+                <select
+                  id="lecturerFilter"
+                  class="form-select form-select-sm"
+                  required
+                >
+                  <option value="">-- Select lecturer --</option>
+                  <option value="Mr. John">Mr. John</option>
+                  <option value="Ms. Anna">Ms. Anna</option>
+                  <option value="Mr. David">Mr. David</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <button id="searchBtn" class="btn btn-primary btn-sm">
+                  Search
+                </button>
+              </div>
+            </div>
+            <table class="table table-hover table-sm">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Class</th>
+                  <th>Subject</th>
+                  <th>Lecturer</th>
+                  <th>Topic</th>
+                  <th>Format</th>
+                  <th>Training/Mentoring Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="scheduleBody">
+                <tr>
+                  <td colspan="9" class="text-center text-muted">
+                    No schedules
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/validator.js"></script>
+    <script src="../js/utils.js"></script>
+
+    <script>
+      $(function () {
+        let schedules = [
+          //   {
+          //     id: 1,
+          //     class: "Fresher.NET",
+          //     topic: "OOP Basics",
+          //     subject: "C#",
+          //     lecturer: "Mr. John",
+          //     format: "Online",
+          //     date: "2025-11-25",
+          //     startTime: "08:00",
+          //     endTime: "10:00",
+          //   },
+          //   {
+          //     id: 2,
+          //     class: "Fresher Java",
+          //     topic: "Database Design",
+          //     subject: "SQL Server",
+          //     lecturer: "Ms. Anna",
+          //     format: "Offline",
+          //     date: "2025-11-26",
+          //     startTime: "13:00",
+          //     endTime: "15:00",
+          //   },
+          //   {
+          //     id: 3,
+          //     class: "Fresher React",
+          //     topic: "DOM Manipulation",
+          //     subject: "JavaScript",
+          //     lecturer: "Mr. David",
+          //     format: "Online",
+          //     date: "2025-11-27",
+          //     startTime: "09:00",
+          //     endTime: "11:00",
+          //   },
+        ];
+
+        function render() {
+          const body = $("#scheduleBody");
+          if (!schedules.length) {
+            body.html(
+              '<tr><td colspan="9" class="text-center text-muted">No schedules</td></tr>'
+            );
+            return;
+          }
+          body.html(
+            schedules
+              .map(
+                (s) => `
+                    <tr>
+                        <td>${s.id}</td>
+                        <td><span class="badge bg-primary">${
+                          s.class
+                        }</span></td>
+                           <td>${s.subject}</td>
+              
+                        <td>${s.lecturer}</td>
+                        <td><strong>${s.topic}</strong></td>
+                     
+                        <td><span class="badge ${
+                          s.format === "Online" ? "bg-info" : "bg-success"
+                        }">${s.format}</span></td>
+                        <td>${new Date(s.date).toLocaleDateString("vi-VN")}, ${
+                  s.startTime
+                } - ${s.endTime}</td>
+                        <td>
+                            <button class="btn btn-outline-danger btn-sm btn-del" data-id="${
+                              s.id
+                            }">
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `
+              )
+              .join("")
+          );
+        }
+        $("#startTime").on("change", function () {
+          const startTime = $("#startTime").val().split(":");
+
+          const startHour = parseInt(startTime[0]);
+          const endHour = `${(startHour + 3) % 24}`;
+
+          $("#endTime").val(
+            `${endHour.length == 2 ? endHour : "0" + endHour}:00`
+          );
+        });
+        $("#searchBtn").click(function () {
+          if ($("#lecturerFilter").val() == "") {
+            alert("Please select a lecturer to search");
+          }
+        });
+        $("#addBtn").click(function () {
+          const data = {
+            class: $("#classSelect").val(),
+            topic: $("#topicInput").val().trim(),
+            subject: $("#subjectSelect").val(),
+            lecturer: $("#lecturerSelect").val(),
+            format: $("#formatSelect").val(),
+            date: $("#dateInput").val(),
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+          };
+          if (data.class == "") {
+            $("#errorClassSelect").text("Please select a class");
+            return;
+          }
+          $("#errorClassSelect").text("");
+          if (data.subject == "") {
+            $("#errorSubjectSelect").text("Please select a subject");
+            return;
+          }
+          $("#errorSubjectSelect").text("");
+          if (data.topic == "") {
+            $("#errorTopicInput").text("This field is required");
+            return;
+          }
+          $("#errorTopicInput").text("");
+          if (data.lecturer == "") {
+            $("#errorLecturerSelect").text("Please select a lecturer");
+            return;
+          }
+          $("#errorLecturerSelect").text("");
+          if (data.format == "") {
+            $("#errorFormatSelect").text("Please select a format");
+            return;
+          }
+          $("#errorFormatSelect").text("");
+          if (data.date == "") {
+            $("#errorDateInput").text("Please select a date");
+            return;
+          }
+          $("#errorDateInput").text("");
+          if (data.endTime == "") {
+            $("#errorEndTime").text("Please select an end time");
+            return;
+          }
+          if (data.startTime == "") {
+            $("#errorStartTime").text("This field is required");
+            $("#errorEndTime").text("Please select a start time");
+            return;
+          }
+          $("#errorStartTime").text("");
+          $("#errorEndTime").text("");
+          if (!validator.isName(data.topic)) {
+            $("#errorTopicInput").text("Invalid subject topic");
+            return;
+          }
+          $("#errorTopicInput").text("");
+          if (!validator.isValidDate(data.date)) {
+            $("#errorDateInput").text("Invalid date");
+            return;
+          }
+          $("#errorDateInput").text("");
+          if (!validator.isValidTime(data.startTime, data.endTime)) {
+            $("#errorStartTime").text("Invalid start time");
+            $("#errorEndTime").text("Invalid end time");
+            return;
+          }
+          $("#errorStartTime").text("");
+          $("#errorEndTime").text("");
+          const newId = schedules.length
+            ? Math.max(...schedules.map((s) => s.id)) + 1
+            : 1;
+          schedules.push({ id: newId, ...data });
+          render();
+          $("#clearBtn").click();
+          Utils.alert("Added successfully!", "success");
+        });
+
+        $("#clearBtn").click(function () {
+          $(
+            "#classSelect, #subjectSelect, #lecturerSelect, #formatSelect, #startTime, #endTime"
+          ).val("");
+          $("#topicInput, #dateInput").val("");
+        });
+
+        $(document).on("click", ".btn-del", function () {
+          if (!confirm("Are you sure you want to delete this row?")) return;
+          const id = parseInt($(this).data("id"));
+          schedules = schedules.filter((s) => s.id !== id);
+          render();
+          Utils.alert("Deleted!", "info");
+        });
+
+        render();
+      });
+    </script>
+  </body>
+</html>
